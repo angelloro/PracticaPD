@@ -5,6 +5,8 @@
  */
 package practicapd;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Angel
@@ -16,6 +18,18 @@ public class PracticaPD {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+    }
+    public ArrayList primos(int num){
+        ArrayList primos= new ArrayList();
+        for (int i=0;i<=num;i++){
+            if (num%i==0){
+                primos.add(i);
+            }
+        }
+        
+        
+        return primos;
+        
     }
     
 }
