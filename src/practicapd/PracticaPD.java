@@ -17,7 +17,7 @@ public class PracticaPD {
         Numero raiz = new Numero(num, division(num, pa), null, 0);
         vertices.add(0, raiz);
 
-        mapa = new Grafo(vertices.size());
+        mapa = new Grafo(vertices.size(),true);
         mapa=editarGrafo(mapa,vertices);
         
         leer.pln(mapa.toString());
@@ -40,24 +40,39 @@ public class PracticaPD {
                     anchura.add(voy);
                 }
                 if (!ganador(voy.getNumero())) {
-                    leer.pln(""+voy.getNumero());
+                    
                     voy.setPadre(estoy);
+                    leer.pln(""+voy.getNumero());
                 }
             }
             c++;
         }
     }
 
-    private static boolean ganador(int b) {        
-        return primosMenores(b).size() == 1;
+    private static boolean ganador(int b) {     
+        int cont = 0;
+        for(int i = 0 ; i < primosMenores(b).size() ; i++){
+            if(b%primosMenores(b).get(i) == 0){
+                cont++;
+            }
+        }                       
+        return cont == 1;
     }
 
     public static ArrayList<Integer> primosMenores(int num) {
         ArrayList<Integer> primos = new ArrayList();
-
-        primos.add(2);
-        primos.add(3);
-        primos.add(5);
+        int aux;
+        if(num>=5){
+            primos.add(2);
+            primos.add(3);
+            primos.add(5); 
+        }else if(num>=3){
+            primos.add(2);
+            primos.add(3);        
+        }else if(num>=2){
+            primos.add(2);
+        }
+        
         for (int i = 2; i <= num; i++) {
             if (i % 2 != 0 && i % 3 != 0 && i % 5 != 0) {
                 primos.add(i);
