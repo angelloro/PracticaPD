@@ -5,15 +5,14 @@ import java.util.ArrayList;
 
 /**
  * @author Ángel Loro y Ángel Sánchez
- *
- */
+ **/
 public class PracticaPD {
 
     private static Grafo<Numero, Integer> mapa;
 
     public static void main(String[] args) {
-        int num = 24;
-        ArrayList pa = primosDivisores(num);
+        int num = 12;
+        ArrayList<Integer> pa = primosDivisores(num);
         ArrayList<Numero> vertices = sacarVertices(num);
         Numero raiz = new Numero(num, division(num, pa), null, 0);
         vertices.add(0, raiz);
@@ -21,22 +20,15 @@ public class PracticaPD {
         mapa = new Grafo(vertices.size());
         mapa=editarGrafo(mapa,vertices);
         
-         leer.p(mapa.toString());
-
-        /*for(int i = 0 ; i<vertices.size() ; i++){    
-            leer.pln(""+vertices.get(i).getNumero());
-            
-        }*/
-        //forward(raiz);
+        leer.pln(mapa.toString());
+        
+        forward(raiz);
     }
 
     public static void forward(Numero raiz) {
-
         ArrayList<Numero> anchura = new ArrayList<Numero>();
         raiz.setCoste(0);
-        anchura.add(raiz);
-
-        leer.pln(mapa.toString());
+        anchura.add(raiz);               
         ArrayList<Numero> numeros = mapa.vertices();
         int c = 0;
         while (c < numeros.size()) {
@@ -47,8 +39,8 @@ public class PracticaPD {
                 if (!anchura.contains(voy)) {
                     anchura.add(voy);
                 }
-                if (mejor(estoy.getCoste() + mapa.peso(estoy, voy), voy.getCoste())) {
-                    voy.setCoste(estoy.getCoste() + mapa.peso(estoy, voy));
+                if (!ganador(voy.getNumero())) {
+                    leer.pln(""+voy.getNumero());
                     voy.setPadre(estoy);
                 }
             }
@@ -56,8 +48,8 @@ public class PracticaPD {
         }
     }
 
-    private static boolean mejor(int a, int b) {
-        return a < b;
+    private static boolean ganador(int b) {        
+        return primosMenores(b).size() == 1;
     }
 
     public static ArrayList<Integer> primosMenores(int num) {
@@ -120,11 +112,10 @@ public class PracticaPD {
     }
     
     public static Grafo editarGrafo(Grafo mapa,ArrayList<Numero> vertices){
-                for (int i = 0; i < vertices.size(); i++) {
+        for (int i = 0; i < vertices.size(); i++) {
             Numero a = vertices.get(i);
             //Numero n = new Numero(a,primosDivisores(a),raiz,0);
             mapa.nuevoVertice(a);
-
         }
         ArrayList<Numero> V = mapa.vertices();
         for (int x = 0; x < V.size(); x++) {
