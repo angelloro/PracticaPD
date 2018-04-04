@@ -14,11 +14,12 @@ public class PracticaPD {
     public static void main(String[] args) {
         int num = 12;
         ArrayList pa = primosDivisores(num);
-        /*for(int i = 0 ; i<pa.size() ; i++){    
-            leer.pln(""+pa.get(i));
+        ArrayList<Integer> vertices = sacarVertices(num);
+        for(int i = 0 ; i<vertices.size() ; i++){    
+            leer.pln(""+vertices.get(i));
             
-        }*/
-        leer.pln("Numero vertices: "+numeroVertices(num));
+        }
+
         mapa = new Grafo(1000);
         Numero raiz=new Numero(num,pa,null,0);        
         forward(raiz);
@@ -95,7 +96,7 @@ public class PracticaPD {
         return primos;
     }
     
-    public static ArrayList division(int num, ArrayList<Integer> primos){
+    public static ArrayList<Integer> division(int num, ArrayList<Integer> primos){
         ArrayList<Integer> aux = new ArrayList<Integer>();
         for(int i = 0 ; i < primos.size() ; i++){
             aux.add(num/primos.get(i));
@@ -103,22 +104,23 @@ public class PracticaPD {
         return aux;
     }
     
-    public static int numeroVertices(int num){
+    public static ArrayList<Integer> sacarVertices(int num){
         int numeroVer;
-        ArrayList<Integer> nVer = primosDivisores(num);
+        ArrayList<Integer> nVer = division(num, primosDivisores(num));
         ArrayList<Integer> aux = new ArrayList<Integer>();
         int c = 0;
         while(c <= nVer.size()){
             for(int i = 0 ; i < nVer.size() ; i++){
-                aux = primosDivisores(nVer.get(i));
+                aux = division(nVer.get(i),primosDivisores(nVer.get(i)));
                 for(int j = 0 ; j < aux.size() ; j++){
                     if(!nVer.contains(aux.get(j))){
-                        nVer.add(num/aux.get(j));
+                        nVer.add(aux.get(j));
                     }
                 }
             }
             c++;
         }
-        return numeroVer = nVer.size()+2;
+        nVer.add(0,num);
+        return nVer;
     }
 }
