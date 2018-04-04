@@ -1,35 +1,55 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practicapd;
 
+import utilidades.*;
 import java.util.ArrayList;
 
+
 /**
- *
- * @author Angel
- */
+ * @author Ángel Loro y Ángel Sánchez
+ **/
 public class PracticaPD {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        int num = 111;
+        ArrayList pa = primos(num);
+        /*for(int i = 0 ; i<pa.size() ; i++){    
+            leer.pln(""+pa.get(i));
+            
+        }*/
+        ArrayList pad = primosDivisores(num, pa);
+        for(int i = 0 ; i<pad.size() ; i++){    
+            leer.pln(""+pad.get(i));
+            
+        }
     }
-    public ArrayList primos(int num){
+    
+    public static ArrayList primos(int num){
         ArrayList primos= new ArrayList();
-        for (int i=0;i<=num;i++){
-            if (num%i==0){
+ 
+        primos.add(2);
+        primos.add(3);
+        primos.add(5);
+        for(int i = 2 ; i <= num ; i++){
+            if(i%2!=0 && i%3!=0 && i%5!=0){
                 primos.add(i);
             }
         }
-        
-        
         return primos;
         
     }
     
+    public static ArrayList primosDivisores(int num, ArrayList primos){
+        ArrayList primosDivisores = new ArrayList();
+        int cont = 1;
+        for(int i = 0 ; i < primos.size() ; i++){
+            cont = 1;
+            while(num%(int)primos.get(i) == 0){
+                
+                primosDivisores.add((int)Math.pow((int)primos.get(i), cont));
+                num /= (int)primos.get(i);
+                cont++;
+            }
+        }
+        return primosDivisores;
+    }
 }
