@@ -4,6 +4,7 @@
  */
 package utilidades;
 
+import practicapd.Grafo;
 import java.util.ArrayList;
 
 /**
