@@ -13,32 +13,32 @@ public class PracticaPD {
 
     public static void main(String[] args) {
         int num = 12;
-        //ArrayList pa = primos(num);
+        ArrayList pa = primosDivisores(num);
         /*for(int i = 0 ; i<pa.size() ; i++){    
             leer.pln(""+pa.get(i));
             
         }*/
-        ArrayList pad = primosDivisores(num, primos(num));
-        /*for (int i = 0; i < pad.size(); i++) {
-            leer.pln("" + pad.get(i));
-                
-        }*/
-        Grafo<Numero,Integer> g;
-        Numero raiz=new Numero(num,pad,null,0);        
+        leer.pln("Numero vertices: "+numeroVertices(num));
+        mapa = new Grafo(1000);
+        Numero raiz=new Numero(num,pa,null,0);        
         forward(raiz);
+        
+        for(int i = 0 ; i < raiz.getPrimos().size() ; i++){
+            int a = (int)raiz.getPrimos().get(i);
+            Numero n = new Numero(a,primosDivisores(a),raiz,0);
+            mapa.nuevoVertice(n);
+            
+        }
     }
 
     public static void forward(Numero raiz) {
+        
         ArrayList<Numero> anchura = new ArrayList<Numero>();
         raiz.setCoste(0);
         anchura.add(raiz);
         
        
-        for(int i = 0 ; i < raiz.getPrimos().size() ; i++){
-            int a = (int)raiz.getPrimos().get(i);
-            Numero n = new Numero(a,primosDivisores(a, primos(a)),raiz,0);
-            mapa.nuevoVertice(n);
-        }
+
         
         leer.pln(mapa.toString());
         ArrayList<Numero> numeros = mapa.vertices();
@@ -64,9 +64,9 @@ public class PracticaPD {
         return a < b;
     }
 
-    public static ArrayList primos(int num) {
-        ArrayList primos = new ArrayList();
-
+    public static ArrayList<Integer> primosMenores(int num) {
+        ArrayList<Integer> primos = new ArrayList();
+        
         primos.add(2);
         primos.add(3);
         primos.add(5);
@@ -76,21 +76,49 @@ public class PracticaPD {
             }
         }
         return primos;
-
     }
-
-    public static ArrayList primosDivisores(int num, ArrayList primos) {
-        ArrayList primosDivisores = new ArrayList();
-        int cont = 1;
+    
+    public static ArrayList<Integer> primosDivisores(int num){
+        ArrayList<Integer> primos = primosMenores(num);
+        ArrayList<Integer> aux = new ArrayList();
+        int cont;
+       
         for (int i = 0; i < primos.size(); i++) {
             cont = 1;
             while (num % (int) primos.get(i) == 0) {
-
-                primosDivisores.add((int) Math.pow((int) primos.get(i), cont));
+                aux.add((int) Math.pow((int) primos.get(i), cont));
                 num /= (int) primos.get(i);
                 cont++;
             }
         }
-        return primosDivisores;
+        primos = aux;
+        return primos;
+    }
+    
+    public static ArrayList division(int num, ArrayList<Integer> primos){
+        ArrayList<Integer> aux = new ArrayList<Integer>();
+        for(int i = 0 ; i < primos.size() ; i++){
+            aux.add(num/primos.get(i));
+        }
+        return aux;
+    }
+    
+    public static int numeroVertices(int num){
+        int numeroVer;
+        ArrayList<Integer> nVer = primosDivisores(num);
+        ArrayList<Integer> aux = new ArrayList<Integer>();
+        int c = 0;
+        while(c <= nVer.size()){
+            for(int i = 0 ; i < nVer.size() ; i++){
+                aux = primosDivisores(nVer.get(i));
+                for(int j = 0 ; j < aux.size() ; j++){
+                    if(!nVer.contains(aux.get(j))){
+                        nVer.add(num/aux.get(j));
+                    }
+                }
+            }
+            c++;
+        }
+        return numeroVer = nVer.size()+2;
     }
 }
