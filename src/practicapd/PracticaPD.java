@@ -12,11 +12,11 @@ public class PracticaPD {
     private static Grafo<Numero, Integer> mapa;
 
     public static void main(String[] args) {
-        int num = 12;
+        int num = 24;
         ArrayList pa = primosDivisores(num);
-        ArrayList<Integer> vertices = sacarVertices(num);
+        ArrayList<Numero> vertices = sacarVertices(num);
         for(int i = 0 ; i<vertices.size() ; i++){    
-            leer.pln(""+vertices.get(i));
+            leer.pln(""+vertices.get(i).getNumero());
             
         }
 
@@ -86,9 +86,9 @@ public class PracticaPD {
        
         for (int i = 0; i < primos.size(); i++) {
             cont = 1;
-            while (num % (int) primos.get(i) == 0) {
-                aux.add((int) Math.pow((int) primos.get(i), cont));
-                num /= (int) primos.get(i);
+            while (num % primos.get(i) == 0) {
+                aux.add((int)Math.pow(primos.get(i), cont));
+                num /= primos.get(i);
                 cont++;
             }
         }
@@ -104,23 +104,23 @@ public class PracticaPD {
         return aux;
     }
     
-    public static ArrayList<Integer> sacarVertices(int num){
+    public static ArrayList<Numero> sacarVertices(int num){
         int numeroVer;
         ArrayList<Integer> nVer = division(num, primosDivisores(num));
         ArrayList<Integer> aux = new ArrayList<Integer>();
-        int c = 0;
-        while(c <= nVer.size()){
-            for(int i = 0 ; i < nVer.size() ; i++){
-                aux = division(nVer.get(i),primosDivisores(nVer.get(i)));
-                for(int j = 0 ; j < aux.size() ; j++){
-                    if(!nVer.contains(aux.get(j))){
-                        nVer.add(aux.get(j));
-                    }
+        ArrayList<Numero> nas = new ArrayList<Numero>();
+        for(int i = 0 ; i < nVer.size() ; i++){
+            aux = division(nVer.get(i),primosDivisores(nVer.get(i)));
+            Numero n = new Numero(nVer.get(i),aux,null,0);               
+            nas.add(n);                    
+            for(int j = 0 ; j < aux.size() ; j++){
+                if(!nVer.contains(aux.get(j))){
+                    nVer.add(aux.get(j));
                 }
             }
-            c++;
         }
         nVer.add(0,num);
-        return nVer;
+        
+        return nas;
     }
 }
