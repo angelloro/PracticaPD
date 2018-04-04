@@ -13,17 +13,18 @@ public class PracticaPD {
 
     public static void main(String[] args) {
         int num = 12;
-        ArrayList pa = primos(num);
+        //ArrayList pa = primos(num);
         /*for(int i = 0 ; i<pa.size() ; i++){    
             leer.pln(""+pa.get(i));
             
         }*/
-        /*ArrayList pad = primosDivisores(num, pa);
-        for (int i = 0; i < pad.size(); i++) {
+        ArrayList pad = primosDivisores(num, primos(num));
+        /*for (int i = 0; i < pad.size(); i++) {
             leer.pln("" + pad.get(i));
                 
         }*/
-        Numero raiz=new Numero(num,pa,null,0);
+        Grafo<Numero,Integer> g;
+        Numero raiz=new Numero(num,pad,null,0);        
         forward(raiz);
     }
 
@@ -31,6 +32,15 @@ public class PracticaPD {
         ArrayList<Numero> anchura = new ArrayList<Numero>();
         raiz.setCoste(0);
         anchura.add(raiz);
+        
+       
+        for(int i = 0 ; i < raiz.getPrimos().size() ; i++){
+            int a = (int)raiz.getPrimos().get(i);
+            Numero n = new Numero(a,primosDivisores(a, primos(a)),raiz,0);
+            mapa.nuevoVertice(n);
+        }
+        
+        leer.pln(mapa.toString());
         ArrayList<Numero> numeros = mapa.vertices();
         int c = 0;
         while (c < numeros.size()) {
