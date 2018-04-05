@@ -12,7 +12,7 @@ public class PracticaPD {
     private static Grafo<Numero, Integer> mapa;
 
     public static void main(String[] args) {
-        int num = 24;
+        int num = 12;
         ArrayList<Integer> pa = primosDivisores(num);
         ArrayList<Numero> vertices = sacarVertices(num);
         Numero raiz = new Numero(num, division(num, pa), null, 0,false);
@@ -24,7 +24,7 @@ public class PracticaPD {
         leer.pln(mapa.toString());
 
         forward(raiz);
-        ArrayList<Numero> visitados=null;
+        ArrayList<Numero> visitados=new ArrayList<Numero>();
         backward(raiz,visitados);
     }
 
