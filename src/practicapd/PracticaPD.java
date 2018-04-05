@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 /**
  * @author Ángel Loro y Ángel Sánchez
- **/
+ *
+ */
 public class PracticaPD {
 
     private static Grafo<Numero, Integer> mapa;
@@ -14,21 +15,23 @@ public class PracticaPD {
         int num = 24;
         ArrayList<Integer> pa = primosDivisores(num);
         ArrayList<Numero> vertices = sacarVertices(num);
-        Numero raiz = new Numero(num, division(num, pa), null, 0);
+        Numero raiz = new Numero(num, division(num, pa), null, 0,false);
         vertices.add(0, raiz);
 
-        mapa = new Grafo(vertices.size(),true);
-        mapa=editarGrafo(mapa,vertices);
-        
+        mapa = new Grafo(vertices.size(), true);
+        mapa = editarGrafo(mapa, vertices);
+
         leer.pln(mapa.toString());
-        
+
         forward(raiz);
+        ArrayList<Numero> visitados=null;
+        backward(raiz,visitados);
     }
 
     public static void forward(Numero raiz) {
         ArrayList<Numero> anchura = new ArrayList<Numero>();
         raiz.setCoste(0);
-        anchura.add(raiz);               
+        anchura.add(raiz);
         ArrayList<Numero> numeros = mapa.vertices();
         int c = 0;
         while (c < numeros.size()) {
@@ -39,43 +42,67 @@ public class PracticaPD {
                 if (!anchura.contains(voy)) {
                     anchura.add(voy);
                 }
-                if (!ganador(voy.getNumero())) {                    
-                    voy.setPadre(estoy); 
-                    leer.pln(""+voy.getNumero());
+                if (!ganador(voy.getNumero())) {
+                    voy.setPadre(estoy);
+                    leer.pln("" + voy.getNumero());
                 }
             }
             c++;
         }
     }
 
-    private static boolean ganador(int b) {     
-        int cont = 0;        
-        for(int i = 0 ; i < primosMenores(b).size() ; i++){
-            if(b%primosMenores(b).get(i) == 0){
+    private static boolean ganador(int b) {
+        int cont = 0;
+        for (int i = 0; i < primosMenores(b).size(); i++) {
+            if (b % primosMenores(b).get(i) == 0) {
                 cont++;
             }
-        }                       
+        }
         return cont == 1 || cont == 0;
     }
-    
-    public static void bakward(){
-        
+
+    public static int backward(Numero estoy, ArrayList<Numero> visitados) {//recorrido profundidad
+        visitados.add(estoy);
+        if (!calculado(estoy)) {
+            ArrayList<Numero> ady = mapa.adyacentes(estoy);
+            if (ady.isEmpty()) {
+                estoy.setCoste(0);//ultimo vertice
+            } else {
+                for (int k = 0; k < ady.size(); k++) {
+                    Numero voy = ady.get(k);
+                    int costo = backward(voy, visitados);
+                    if (mejor(costo + mapa.peso(estoy, voy), estoy.getCoste())) {
+                        estoy.setCoste(costo + mapa.peso(estoy, voy));
+                        estoy.setPadre(voy);
+                    }
+                }
+            }
+        }
+        return estoy.getCoste();
+    }//back
+
+    public static boolean calculado(Numero c) {
+        return c.getCoste() < 99999;
     }
-    
+
+    private static boolean mejor(int a, int b) {
+        return a < b;
+    }
+
     public static ArrayList<Integer> primosMenores(int num) {
         ArrayList<Integer> primos = new ArrayList();
         int aux;
-        if(num>=5){
+        if (num >= 5) {
             primos.add(2);
             primos.add(3);
-            primos.add(5); 
-        }else if(num>=3){
+            primos.add(5);
+        } else if (num >= 3) {
             primos.add(2);
-            primos.add(3);        
-        }else if(num>=2){
+            primos.add(3);
+        } else if (num >= 2) {
             primos.add(2);
         }
-        
+
         for (int i = 2; i <= num; i++) {
             if (i % 2 != 0 && i % 3 != 0 && i % 5 != 0) {
                 primos.add(i);
@@ -116,7 +143,7 @@ public class PracticaPD {
         ArrayList<Numero> nas = new ArrayList<Numero>();
         for (int i = 0; i < nVer.size(); i++) {
             aux = division(nVer.get(i), primosDivisores(nVer.get(i)));
-            Numero n = new Numero(nVer.get(i), aux, null, 0);
+            Numero n = new Numero(nVer.get(i), aux, null, 0,false);
             nas.add(n);
             for (int j = 0; j < aux.size(); j++) {
                 if (!nVer.contains(aux.get(j))) {
@@ -128,8 +155,8 @@ public class PracticaPD {
 
         return nas;
     }
-    
-    public static Grafo editarGrafo(Grafo mapa,ArrayList<Numero> vertices){
+
+    public static Grafo editarGrafo(Grafo mapa, ArrayList<Numero> vertices) {
         for (int i = 0; i < vertices.size(); i++) {
             Numero a = vertices.get(i);
             //Numero n = new Numero(a,primosDivisores(a),raiz,0);
@@ -147,10 +174,10 @@ public class PracticaPD {
                         X = N1;
                     }
                 }
-                
+
                 mapa.nuevoArco(O, X, 0);
             }
-            
+
         }
         return mapa;
     }

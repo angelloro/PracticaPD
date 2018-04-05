@@ -15,11 +15,13 @@ public class Numero {
     ArrayList primos;
     Numero padre;
     int coste;
-    public Numero(int numero,ArrayList primos,Numero padre,int coste){
+    boolean ganador;
+    public Numero(int numero,ArrayList primos,Numero padre,int coste,boolean ganador){
         this.numero=numero;
         this.primos=primos;
         this.padre=padre;
         this.coste=coste;
+        this.ganador=ganador;
     }
 
     public void setCoste(int coste) {
