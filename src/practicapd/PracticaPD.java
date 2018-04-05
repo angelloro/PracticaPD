@@ -11,7 +11,7 @@ public class PracticaPD {
     private static Grafo<Numero, Integer> mapa;
 
     public static void main(String[] args) {
-        int num = 12;
+        int num = 24;
         ArrayList<Integer> pa = primosDivisores(num);
         ArrayList<Numero> vertices = sacarVertices(num);
         Numero raiz = new Numero(num, division(num, pa), null, 0);
@@ -39,9 +39,8 @@ public class PracticaPD {
                 if (!anchura.contains(voy)) {
                     anchura.add(voy);
                 }
-                if (!ganador(voy.getNumero())) {
-                    
-                    voy.setPadre(estoy);
+                if (!ganador(voy.getNumero())) {                    
+                    voy.setPadre(estoy); 
                     leer.pln(""+voy.getNumero());
                 }
             }
@@ -50,15 +49,19 @@ public class PracticaPD {
     }
 
     private static boolean ganador(int b) {     
-        int cont = 0;
+        int cont = 0;        
         for(int i = 0 ; i < primosMenores(b).size() ; i++){
             if(b%primosMenores(b).get(i) == 0){
                 cont++;
             }
         }                       
-        return cont == 1;
+        return cont == 1 || cont == 0;
     }
-
+    
+    public static void bakward(){
+        
+    }
+    
     public static ArrayList<Integer> primosMenores(int num) {
         ArrayList<Integer> primos = new ArrayList();
         int aux;
