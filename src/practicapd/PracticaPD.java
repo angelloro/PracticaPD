@@ -9,10 +9,26 @@ import java.util.ArrayList;
  */
 public class PracticaPD {
 
-    private static Grafo<Numero, Integer> mapa;
-    private static Numero raiz;
-    public static void main(String[] args) {
-        int num = 24;
+    private Grafo<Numero, Integer> mapa;
+    private Numero raiz;
+    private Numero numeroActual;
+    public void inicio(int num) {
+        crearGrafo(num);
+
+        //leer.pln("backward");        
+        backward(raiz);
+        numeroActual=raiz;
+        //siguienteJugada(adyacentesRaiz);
+    }
+
+    public Numero darRaiz() {
+        return raiz;
+    }
+    public Numero darNActual(){
+        return numeroActual;
+    }
+
+    public void crearGrafo(int num) {
         ArrayList<Integer> pa = primosDivisores(num);
         ArrayList<Numero> vertices = sacarVertices(num);
         raiz = new Numero(num, division(num, pa), null, 0);
@@ -20,18 +36,9 @@ public class PracticaPD {
 
         mapa = new Grafo(vertices.size(), true);
         mapa = editarGrafo(mapa, vertices);
-
-        leer.pln(mapa.toString());
-        leer.pln("fordward");
-        forward(raiz);
-        
-        leer.pln("backward");        
-        backward(raiz);
-        leer.pln(""+raiz.isGanador());
-        //Para ver a que numero va, elegir un adyacente que sea perdedor
     }
 
-    public static void forward(Numero raiz) { 
+    public void forward(Numero raiz) {
         ArrayList<Numero> anchura = new ArrayList<Numero>();
         raiz.setCoste(0);
         anchura.add(raiz);
@@ -46,51 +53,52 @@ public class PracticaPD {
                     anchura.add(voy);
                 }
                 if (!ganador(voy)) {
-                    if(voy.getNumero()!=1){
-                    voy.setPadre(estoy);
-                    leer.pln("" + voy.getNumero());
-                    leer.pln(""+voy.getPadre().getNumero());}
-                    
+                    if (voy.getNumero() != 1) {
+                        voy.setPadre(estoy);
+                        leer.pln("" + voy.getNumero());
+                        leer.pln("" + voy.getPadre().getNumero());
+                    }
+
                 }
             }
             c++;
         }
     }
 
-    private static boolean ganador(Numero V) {
-        boolean ganador=false;
-        ArrayList <Integer> ADY=V.getPrimos();
-        for (int i=0;i<ADY.size();i++){
-            if (ADY.get(i)==1){
-                    ganador=true;
+    private boolean ganador(Numero V) {
+        boolean ganador = false;
+        ArrayList<Integer> ADY = V.getPrimos();
+        for (int i = 0; i < ADY.size(); i++) {
+            if (ADY.get(i) == 1) {
+                ganador = true;
             }
-                    
+
         }
         return ganador;
     }
 
-    public static void backward(Numero estoy) {//recorrido profundidad             
+    public void backward(Numero estoy) {
         if (estoy.isGanador().equals("X")) {
             ArrayList<Numero> ady = mapa.adyacentes(estoy);
-            if (ady.isEmpty()) {              
+            if (ady.isEmpty()) {
                 estoy.setGanador("P");
             } else {
                 for (int k = 0; k < ady.size(); k++) {
                     Numero voy = ady.get(k);
-                    backward(voy);                    
-                    if (voy.isGanador().equals("P")) {                        
-                        estoy.setGanador("G");                        
+                    backward(voy);
+                    if (voy.isGanador().equals("P")) {
+                        estoy.setGanador("G");
                         estoy.setPadre(voy);
                     }
-                    if(!estoy.isGanador().equals("G")){
-                       estoy.setGanador("P");
+                    if (!estoy.isGanador().equals("G")) {
+                        estoy.setGanador("P");
                     }
                 }
             }
-        }        
+        }
     }
 
-    public static ArrayList<Integer> primosMenores(int num) {
+    public ArrayList<Integer> primosMenores(int num) {
         ArrayList<Integer> primos = new ArrayList();
         int aux;
         if (num >= 5) {
@@ -112,7 +120,7 @@ public class PracticaPD {
         return primos;
     }
 
-    public static ArrayList<Integer> primosDivisores(int num) {
+    public ArrayList<Integer> primosDivisores(int num) {
         ArrayList<Integer> primos = primosMenores(num);
         ArrayList<Integer> aux = new ArrayList();
         int cont;
@@ -129,7 +137,7 @@ public class PracticaPD {
         return primos;
     }
 
-    public static ArrayList<Integer> division(int num, ArrayList<Integer> primos) {
+    public ArrayList<Integer> division(int num, ArrayList<Integer> primos) {
         ArrayList<Integer> aux = new ArrayList<Integer>();
         for (int i = 0; i < primos.size(); i++) {
             aux.add(num / primos.get(i));
@@ -137,7 +145,7 @@ public class PracticaPD {
         return aux;
     }
 
-    public static ArrayList<Numero> sacarVertices(int num) {
+    public ArrayList<Numero> sacarVertices(int num) {
         int numeroVer;
         ArrayList<Integer> nVer = division(num, primosDivisores(num));
         ArrayList<Integer> aux = new ArrayList<Integer>();
@@ -157,7 +165,7 @@ public class PracticaPD {
         return nas;
     }
 
-    public static Grafo editarGrafo(Grafo mapa, ArrayList<Numero> vertices) {
+    public Grafo editarGrafo(Grafo mapa, ArrayList<Numero> vertices) {
         for (int i = 0; i < vertices.size(); i++) {
             Numero a = vertices.get(i);
             //Numero n = new Numero(a,primosDivisores(a),raiz,0);
@@ -181,5 +189,38 @@ public class PracticaPD {
 
         }
         return mapa;
+    }
+
+    public Numero siguienteJugada() {
+        //Para ver a que numero va, elegir un adyacente que sea perdedor
+        ArrayList<Numero> adyacentesRaiz = mapa.adyacentes(numeroActual);
+        Numero siguiente = null;
+        boolean flan = false;
+        for (int i = 0; i < adyacentesRaiz.size(); i++) {
+            if (adyacentesRaiz.get(i).isGanador().equals("P")) {
+                siguiente = adyacentesRaiz.get(i);
+                flan = true;
+            }
+        }
+        for (int i = 0; i < adyacentesRaiz.size(); i++) {
+            if (adyacentesRaiz.get(i).isGanador().equals("G") && flan == false) {
+                siguiente = adyacentesRaiz.get(i);
+            }
+        }
+        return siguiente;
+    }
+    public Numero pedirActual(int num){
+        Numero actual=null;
+        ArrayList<Numero> vertex=mapa.vertices();
+        for (int i=0;i<vertex.size();i++){
+            if(vertex.get(i).getNumero()==num){
+               actual=vertex.get(i);
+            }
+        }
+        
+        return actual;
+    }
+    public void setActual(Numero actual){
+        numeroActual=actual;
     }
 }
