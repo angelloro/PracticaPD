@@ -22,10 +22,12 @@ public class PracticaPD {
         mapa = editarGrafo(mapa, vertices);
 
         leer.pln(mapa.toString());
-
+        leer.pln("fordward");
         forward(raiz);
+        leer.pln("backward");
         ArrayList<Numero> visitados=new ArrayList<Numero>();
         backward(raiz,visitados);
+        //leer.pln(""+backward(raiz,visitados));
     }
 
     public static void forward(Numero raiz) {
@@ -42,38 +44,47 @@ public class PracticaPD {
                 if (!anchura.contains(voy)) {
                     anchura.add(voy);
                 }
-                if (!ganador(voy.getNumero())) {
+                if (!ganador(voy)) {
+                    if(voy.getNumero()!=1){
                     voy.setPadre(estoy);
                     leer.pln("" + voy.getNumero());
+                    leer.pln(""+voy.getPadre().getNumero());}
+                    
                 }
             }
             c++;
         }
     }
 
-    private static boolean ganador(int b) {
-        int cont = 0;
-        for (int i = 0; i < primosMenores(b).size(); i++) {
-            if (b % primosMenores(b).get(i) == 0) {
-                cont++;
+    private static boolean ganador(Numero V) {
+        boolean ganador=false;
+        ArrayList <Integer> ADY=V.getPrimos();
+        for (int i=0;i<ADY.size();i++){
+            if (ADY.get(i)==1){
+                    ganador=true;
             }
+                    
         }
-        return cont == 1 || cont == 0;
+        return ganador;
     }
 
     public static int backward(Numero estoy, ArrayList<Numero> visitados) {//recorrido profundidad
         visitados.add(estoy);
-        if (!calculado(estoy)) {
+        leer.pln(""+ estoy.getNumero());
+        if (!estoy.isGanador()) {
             ArrayList<Numero> ady = mapa.adyacentes(estoy);
             if (ady.isEmpty()) {
+              leer.pln(""+ estoy.getNumero());
                 estoy.setCoste(0);//ultimo vertice
             } else {
                 for (int k = 0; k < ady.size(); k++) {
                     Numero voy = ady.get(k);
                     int costo = backward(voy, visitados);
-                    if (mejor(costo + mapa.peso(estoy, voy), estoy.getCoste())) {
+                    //mejor(costo + mapa.peso(estoy, voy), estoy.getCoste())
+                   if (!ganador(voy)) {
+                       if(voy.getNumero()!=1){
                         estoy.setCoste(costo + mapa.peso(estoy, voy));
-                        estoy.setPadre(voy);
+                        estoy.setPadre(voy);}
                     }
                 }
             }

@@ -12,13 +12,13 @@ import java.util.*;
  */
 public class Numero {
     int numero;
-    ArrayList primos;
+    ArrayList numAdyacentes;
     Numero padre;
     int coste;
     boolean ganador;
     public Numero(int numero,ArrayList primos,Numero padre,int coste,boolean ganador){
         this.numero=numero;
-        this.primos=primos;
+        this.numAdyacentes=primos;
         this.padre=padre;
         this.coste=coste;
         this.ganador=ganador;
@@ -26,6 +26,14 @@ public class Numero {
 
     public void setCoste(int coste) {
         this.coste = coste;
+    }
+
+    public void setGanador(boolean ganador) {
+        this.ganador = ganador;
+    }
+
+    public boolean isGanador() {
+        return ganador;
     }
 
     public int getCoste() {
@@ -37,7 +45,7 @@ public class Numero {
     }
 
     public ArrayList getPrimos() {
-        return primos;
+        return numAdyacentes;
     }
 
     public Numero getPadre() {
@@ -49,7 +57,7 @@ public class Numero {
     }
 
     public void setPrimos(ArrayList primos) {
-        this.primos = primos;
+        this.numAdyacentes = primos;
     }
 
     public void setPadre(Numero padre) {
