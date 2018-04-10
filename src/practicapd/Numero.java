@@ -15,24 +15,25 @@ public class Numero {
     ArrayList numAdyacentes;
     Numero padre;
     int coste;
-    boolean ganador;
-    public Numero(int numero,ArrayList primos,Numero padre,int coste,boolean ganador){
+    String ganador;
+    
+    public Numero(int numero,ArrayList primos,Numero padre,int coste){
         this.numero=numero;
         this.numAdyacentes=primos;
         this.padre=padre;
         this.coste=coste;
-        this.ganador=ganador;
+        this.ganador = "X";
     }
 
     public void setCoste(int coste) {
         this.coste = coste;
     }
 
-    public void setGanador(boolean ganador) {
+    public void setGanador(String ganador) {
         this.ganador = ganador;
     }
 
-    public boolean isGanador() {
+    public String isGanador() {
         return ganador;
     }
 

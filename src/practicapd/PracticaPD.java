@@ -10,12 +10,12 @@ import java.util.ArrayList;
 public class PracticaPD {
 
     private static Grafo<Numero, Integer> mapa;
-
+    private static Numero raiz;
     public static void main(String[] args) {
-        int num = 12;
+        int num = 24;
         ArrayList<Integer> pa = primosDivisores(num);
         ArrayList<Numero> vertices = sacarVertices(num);
-        Numero raiz = new Numero(num, division(num, pa), null, 0,false);
+        raiz = new Numero(num, division(num, pa), null, 0);
         vertices.add(0, raiz);
 
         mapa = new Grafo(vertices.size(), true);
@@ -24,13 +24,14 @@ public class PracticaPD {
         leer.pln(mapa.toString());
         leer.pln("fordward");
         forward(raiz);
-        leer.pln("backward");
-        ArrayList<Numero> visitados=new ArrayList<Numero>();
-        backward(raiz,visitados);
-        //leer.pln(""+backward(raiz,visitados));
+        
+        leer.pln("backward");        
+        backward(raiz);
+        leer.pln(""+raiz.isGanador());
+        //Para ver a que numero va, elegir un adyacente que sea perdedor
     }
 
-    public static void forward(Numero raiz) {
+    public static void forward(Numero raiz) { 
         ArrayList<Numero> anchura = new ArrayList<Numero>();
         raiz.setCoste(0);
         anchura.add(raiz);
@@ -68,36 +69,25 @@ public class PracticaPD {
         return ganador;
     }
 
-    public static int backward(Numero estoy, ArrayList<Numero> visitados) {//recorrido profundidad
-        visitados.add(estoy);
-        leer.pln(""+ estoy.getNumero());
-        if (!estoy.isGanador()) {
+    public static void backward(Numero estoy) {//recorrido profundidad             
+        if (estoy.isGanador().equals("X")) {
             ArrayList<Numero> ady = mapa.adyacentes(estoy);
-            if (ady.isEmpty()) {
-              leer.pln(""+ estoy.getNumero());
-                estoy.setCoste(0);//ultimo vertice
+            if (ady.isEmpty()) {              
+                estoy.setGanador("P");
             } else {
                 for (int k = 0; k < ady.size(); k++) {
                     Numero voy = ady.get(k);
-                    int costo = backward(voy, visitados);
-                    //mejor(costo + mapa.peso(estoy, voy), estoy.getCoste())
-                   if (!ganador(voy)) {
-                       if(voy.getNumero()!=1){
-                        estoy.setCoste(costo + mapa.peso(estoy, voy));
-                        estoy.setPadre(voy);}
+                    backward(voy);                    
+                    if (voy.isGanador().equals("P")) {                        
+                        estoy.setGanador("G");                        
+                        estoy.setPadre(voy);
+                    }
+                    if(!estoy.isGanador().equals("G")){
+                       estoy.setGanador("P");
                     }
                 }
             }
-        }
-        return estoy.getCoste();
-    }//back
-
-    public static boolean calculado(Numero c) {
-        return c.getCoste() < 99999;
-    }
-
-    private static boolean mejor(int a, int b) {
-        return a < b;
+        }        
     }
 
     public static ArrayList<Integer> primosMenores(int num) {
@@ -154,7 +144,7 @@ public class PracticaPD {
         ArrayList<Numero> nas = new ArrayList<Numero>();
         for (int i = 0; i < nVer.size(); i++) {
             aux = division(nVer.get(i), primosDivisores(nVer.get(i)));
-            Numero n = new Numero(nVer.get(i), aux, null, 0,false);
+            Numero n = new Numero(nVer.get(i), aux, null, 0);
             nas.add(n);
             for (int j = 0; j < aux.size(); j++) {
                 if (!nVer.contains(aux.get(j))) {
