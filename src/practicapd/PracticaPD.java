@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 /**
  * @author Ángel Loro y Ángel Sánchez
- *
- */
+ **/
+
 public class PracticaPD {
 
     private Grafo<Numero, Integer> mapa;
     private Numero raiz;
     private Numero numeroActual;
+    
     public void inicio(int num) {
         crearGrafo(num);
-
-        //leer.pln("backward");        
+            
         backward(raiz);
         numeroActual=raiz;
         //siguienteJugada(adyacentesRaiz);
@@ -31,7 +31,7 @@ public class PracticaPD {
     public void crearGrafo(int num) {
         ArrayList<Integer> pa = primosDivisores(num);
         ArrayList<Numero> vertices = sacarVertices(num);
-        raiz = new Numero(num, division(num, pa), null, 0);
+        raiz = new Numero(num, division(num, pa), null);
         vertices.add(0, raiz);
 
         mapa = new Grafo(vertices.size(), true);
@@ -39,8 +39,7 @@ public class PracticaPD {
     }
 
     public void forward(Numero raiz) {
-        ArrayList<Numero> anchura = new ArrayList<Numero>();
-        raiz.setCoste(0);
+        ArrayList<Numero> anchura = new ArrayList<>();        
         anchura.add(raiz);
         ArrayList<Numero> numeros = mapa.vertices();
         int c = 0;
@@ -67,7 +66,7 @@ public class PracticaPD {
 
     private boolean ganador(Numero V) {
         boolean ganador = false;
-        ArrayList<Integer> ADY = V.getPrimos();
+        ArrayList<Integer> ADY = V.getAdyacentes();
         for (int i = 0; i < ADY.size(); i++) {
             if (ADY.get(i) == 1) {
                 ganador = true;
@@ -98,61 +97,17 @@ public class PracticaPD {
         }
     }
 
-    public ArrayList<Integer> primosMenores(int num) {
-        ArrayList<Integer> primos = new ArrayList();
-        int aux;
-        if (num >= 5) {
-            primos.add(2);
-            primos.add(3);
-            primos.add(5);
-        } else if (num >= 3) {
-            primos.add(2);
-            primos.add(3);
-        } else if (num >= 2) {
-            primos.add(2);
-        }
 
-        for (int i = 2; i <= num; i++) {
-            if (i % 2 != 0 && i % 3 != 0 && i % 5 != 0) {
-                primos.add(i);
-            }
-        }
-        return primos;
-    }
 
-    public ArrayList<Integer> primosDivisores(int num) {
-        ArrayList<Integer> primos = primosMenores(num);
-        ArrayList<Integer> aux = new ArrayList();
-        int cont;
 
-        for (int i = 0; i < primos.size(); i++) {
-            cont = 1;
-            while (num % primos.get(i) == 0) {
-                aux.add((int) Math.pow(primos.get(i), cont));
-                num /= primos.get(i);
-                cont++;
-            }
-        }
-        primos = aux;
-        return primos;
-    }
 
-    public ArrayList<Integer> division(int num, ArrayList<Integer> primos) {
-        ArrayList<Integer> aux = new ArrayList<Integer>();
-        for (int i = 0; i < primos.size(); i++) {
-            aux.add(num / primos.get(i));
-        }
-        return aux;
-    }
-
-    public ArrayList<Numero> sacarVertices(int num) {
-        int numeroVer;
+    public ArrayList<Numero> sacarVertices(int num) {        
         ArrayList<Integer> nVer = division(num, primosDivisores(num));
-        ArrayList<Integer> aux = new ArrayList<Integer>();
-        ArrayList<Numero> nas = new ArrayList<Numero>();
+        ArrayList<Integer> aux = new ArrayList<>();
+        ArrayList<Numero> nas = new ArrayList<>();
         for (int i = 0; i < nVer.size(); i++) {
             aux = division(nVer.get(i), primosDivisores(nVer.get(i)));
-            Numero n = new Numero(nVer.get(i), aux, null, 0);
+            Numero n = new Numero(nVer.get(i), aux, null);
             nas.add(n);
             for (int j = 0; j < aux.size(); j++) {
                 if (!nVer.contains(aux.get(j))) {
@@ -175,7 +130,7 @@ public class PracticaPD {
         for (int x = 0; x < V.size(); x++) {
             Numero O = V.get(x);
             Numero X = null;
-            ArrayList<Integer> Prim = O.getPrimos();
+            ArrayList<Integer> Prim = O.getAdyacentes();
             for (int y = 0; y < Prim.size(); y++) {
                 for (int z = 0; z < V.size(); z++) {
                     Numero N1 = V.get(z);

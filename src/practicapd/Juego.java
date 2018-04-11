@@ -4,25 +4,27 @@ import java.util.ArrayList;
 import utilidades.*;
 
 /**
- * @author Angel
- */
+ * @author Ángel Loro y Ángel Sánchez
+ **/
+
 public class Juego {
     
     public static void main(String [] args){
-        boolean fin=false;
-        boolean turnoJugador=false;
+        PracticaPD d = new PracticaPD();
+        boolean fin=false, turnoJugador=false;
         String ganador = "";
-        PracticaPD d = new PracticaPD();  
+          
         int n = 195;
         d.inicio(n);
         Numero actual=d.darNActual(); 
-            int eleccion=0;
-            leer.pln("El numero para comenzar a jugar es: "+n);
+        int eleccion=0;
+        leer.pln("El numero para comenzar a jugar es: "+n);
+        
         while(fin==false){  
             if(turnoJugador){
                 leer.pln("Turno jugador: ");
-                while(!actual.getPrimos().contains(eleccion)){
-                   eleccion= leer.entero("Introduzca un numero de esta lista: "+actual.getPrimos());
+                while(!actual.getAdyacentes().contains(eleccion)){
+                   eleccion= leer.entero("Introduzca un numero de esta lista: "+actual.getAdyacentes());
                 }
                 turnoJugador = false;
                 if(eleccion == 1){
@@ -30,8 +32,7 @@ public class Juego {
                     ganador = "Jugador";
                 }
             }else{
-                leer.pln("Turno maquina: ");
-                //d.inicio(eleccion);
+                leer.pln("Turno maquina: ");                
                 actual = d.siguienteJugada();
                 eleccion = actual.getNumero();
                 turnoJugador = true;
@@ -44,6 +45,7 @@ public class Juego {
             d.setActual(actual);
             leer.pln(""+actual.getNumero());
         }
+        
         leer.pln("El ganador es: "+ganador);
     }
 }
