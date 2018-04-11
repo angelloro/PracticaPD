@@ -17,12 +17,9 @@ public class PracticaPD {
         raiz = new Numero(num, null, null);
         ArrayList<Integer> pa = raiz.sacarDivisores(num);
         raiz.setAdyacentes(raiz.sacarSucesores(num));
-        crearGrafo(num);
-        
-        
+        crearGrafo(num);    
         backward(raiz);
         numeroActual=raiz;
-        //siguienteJugada(adyacentesRaiz);
     }
 
     public Numero getRaiz() {
@@ -35,9 +32,8 @@ public class PracticaPD {
     public void crearGrafo(int num) {
         ArrayList<Numero> vertices = sacarVertices(num);
         vertices.add(0, raiz);
-
         mapa = new Grafo(vertices.size(), true);
-        mapa = editarGrafo(mapa, vertices);
+        mapa = editarGrafo( vertices);
     }
     
     //Algoritmo forward y metodos auxiliares
@@ -127,7 +123,7 @@ public class PracticaPD {
         return nas;
     }
 
-    public Grafo editarGrafo(Grafo mapa, ArrayList<Numero> vertices) {
+    public Grafo editarGrafo( ArrayList<Numero> vertices) {
         for (int i = 0; i < vertices.size(); i++) {
             Numero a = vertices.get(i);
             mapa.nuevoVertice(a);
