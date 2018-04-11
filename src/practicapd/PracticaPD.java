@@ -13,7 +13,19 @@ public class PracticaPD {
     private Numero raiz;
     private Numero numeroActual;
     
-    public void inicio(int num) {
+    public void inicioBackward(int num) {
+        raiz = new Numero(num, null);
+        ArrayList<Numero> vertices = sacarVertices(raiz);
+        
+        raiz.setAdyacentes(raiz.sacarSucesores(num));
+ 
+        crearGrafo(raiz, vertices); //Creamos el grafo
+        
+        backward(raiz);
+        numeroActual=raiz;        
+    }
+    
+    public void inicioForward(int num) {
         raiz = new Numero(num, null);
         ArrayList<Numero> vertices = sacarVertices(raiz);
         
@@ -21,50 +33,36 @@ public class PracticaPD {
  
         crearGrafo(raiz, vertices); //Creamos el grafo
                 
-        backward(raiz);
+        forward(vertices.get(0));
         numeroActual=raiz;        
     }
 
-    //Algoritmo forward y metodos auxiliares
-    public void forward(Numero raiz) {
-        /*ArrayList<Numero> anchura = new ArrayList<>();        
-        anchura.add(raiz);
+    //Algoritmo forward
+    public void forward(Numero ultimo) {
+        ArrayList<Numero> anchura = new ArrayList<>();        
+        anchura.add(ultimo);
+        ultimo.setGanador("P");
         ArrayList<Numero> numeros = mapa.vertices();
         int c = 0;
         while (c < numeros.size()) {
             Numero estoy = anchura.get(c);
-            ArrayList<Numero> ady = mapa.adyacentes(estoy);
-            for (int k = 0; k < ady.size(); k++) {
-                Numero voy = ady.get(k);
+            ArrayList<Numero> inc = mapa.incidentes(estoy);
+            for (int k = 0; k < inc.size(); k++) {
+                Numero voy = inc.get(k);
                 if (!anchura.contains(voy)) {
                     anchura.add(voy);
                 }
-                if (!ganador(voy)) {
-                    if (voy.getNumero() != 1) {
-                        voy.setPadre(estoy);
-                        leer.pln("" + voy.getNumero());
-                        leer.pln("" + voy.getPadre().getNumero());
-                    }
-
+                if (!ganador(estoy.getGanador())) {
+                    voy.setGanador("G");                    
+                }else{
+                    voy.setGanador("P");
                 }
             }
             c++;
-        }*/
+        }
     }
 
-    private boolean ganador(Numero V) {
-        boolean ganador = false;
-        /*ArrayList<Integer> ADY = V.getAdyacentes();
-        for (int i = 0; i < ADY.size(); i++) {
-            if (ADY.get(i) == 1) {
-                ganador = true;
-            }
-
-        }*/
-        return ganador;
-    }
-
-    //Algoritmo backward y metodos auxiliares
+    //Algoritmo backward
     public void backward(Numero estoy) {
         if (estoy.getGanador().equals("X")) {
             ArrayList<Numero> ady = mapa.adyacentes(estoy);
@@ -76,7 +74,7 @@ public class PracticaPD {
                     backward(voy);
                     if (!ganador(voy.getGanador())) {
                         estoy.setGanador("G");
-                        estoy.setPadre(voy);
+                        //estoy.setPadre(voy);
                     }
                     if (!ganador(estoy.getGanador())) {
                         estoy.setGanador("P");
@@ -85,12 +83,13 @@ public class PracticaPD {
             }
         }
     }
-
+    
+    //Metodo auxiliar
     public boolean ganador(String a){
         return a.equals("G");
     }
 
-    //Cosas del grafo
+    
     public ArrayList<Numero> sacarVertices(Numero num) {               
         ArrayList<Numero> vertices = new ArrayList<>();
         ArrayList<Integer> nVer = num.sacarSucesores(num.getNumero());
@@ -102,7 +101,7 @@ public class PracticaPD {
             aux = n.sacarSucesores(nVer.get(i));
             n.setAdyacentes(aux);
             
-            vertices.add(n);
+            vertices.add(0,n);
             for (int j = 0; j < aux.size(); j++) {
                 if (!nVer.contains(aux.get(j))) {
                     nVer.add(aux.get(j));

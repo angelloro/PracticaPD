@@ -34,13 +34,20 @@ public class Juego {
 
     public static void comprobarJugada(PracticaPD d) {
         int n = leer.entero("Indique el numero con el cual desea jugar\n");
-        d.inicio(n);//Indicamos el numero con el que se desea jugar
+        //d.inicioForward(n);//Indicamos el numero con el que se desea jugar
         switch(leer.entero("Indique la opcion elegida:\n1:fordward\n2:backward\n")){
             case 1:
-                break;
-                
+                d.inicioForward(n);
+                if (d.getRaiz().getGanador().equals("G")){
+                   leer.pln("Este numero puede ganar");
+                   Numero siguiente =d.siguienteJugada();
+                   leer.pln("Para ganar deje al contrario el numero: "+siguiente.getNumero());
+                }else{
+                   leer.pln("Este numero no puede ganar");
+                }
+                break;                
             case 2:
-                d.inicio(n);
+                d.inicioBackward(n);
                if (d.getRaiz().getGanador().equals("G")){
                    leer.pln("Este numero puede ganar");
                    Numero siguiente =d.siguienteJugada();
@@ -48,8 +55,7 @@ public class Juego {
                }else{
                    leer.pln("Este numero no puede ganar");
                }
-               
-            
+               break;            
         }
     }
 
@@ -59,7 +65,7 @@ public class Juego {
         String ganador = "";
         int n;
         n = leer.entero("Indique el numero con el cual desea jugar\n");
-        d.inicio(n);//Indicamos el numero con el que se desea jugar
+        d.inicioForward(n);//Indicamos el numero con el que se desea jugar
         Numero actual = d.getNActual();//Actualizamos el numero con el que se trabaja
         int eleccion = 0;
         leer.pln("El numero para comenzar a jugar es: " + n);
