@@ -33,7 +33,6 @@ public class PracticaPD {
     }
 
     public void crearGrafo(int num) {
-        leer.pln(""+sacarVertices(num));
         ArrayList<Numero> vertices = sacarVertices(num);
         vertices.add(0, raiz);
 

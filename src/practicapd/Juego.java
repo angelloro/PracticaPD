@@ -14,7 +14,8 @@ public class Juego {
         boolean fin=false, turnoJugador=false;
         String ganador = "";
           
-        int n = 12;
+        int n ;
+        n=leer.entero("Indique el numero con el cual desea jugar\n");
         d.inicio(n);
         Numero actual=d.getNActual(); 
         int eleccion=0;
