@@ -14,10 +14,8 @@ public class PracticaPD {
     private Numero numeroActual;
     
     public void inicioBackward(int num) {
-        raiz = new Numero(num, null);
-        ArrayList<Numero> vertices = sacarVertices(raiz);
-        
-        raiz.setAdyacentes(raiz.sacarSucesores(num));
+        raiz = new Numero(num);
+        ArrayList<Numero> vertices = sacarVertices(raiz);                   
  
         crearGrafo(raiz, vertices); //Creamos el grafo
         
@@ -26,10 +24,8 @@ public class PracticaPD {
     }
     
     public void inicioForward(int num) {
-        raiz = new Numero(num, null);
-        ArrayList<Numero> vertices = sacarVertices(raiz);
-        
-        raiz.setAdyacentes(raiz.sacarSucesores(num));
+        raiz = new Numero(num);
+        ArrayList<Numero> vertices = sacarVertices(raiz);                
  
         crearGrafo(raiz, vertices); //Creamos el grafo
                 
@@ -93,17 +89,17 @@ public class PracticaPD {
     
     public ArrayList<Numero> sacarVertices(Numero num) {               
         ArrayList<Numero> vertices = new ArrayList<>(); //Lista donde vamos a guardar los vertices
-        ArrayList<Integer> nVer = num.sacarSucesores(num.getNumero()); 
-        ArrayList<Integer> aux = new ArrayList<>();
+        ArrayList<Integer> nVer = num.sacarSucesores(); //Lista de los sucesores que vamos a convertir en objeto Numero
+        ArrayList<Integer> aux = new ArrayList<>(); //Lista auxiliar donde vamos a guardar los sucesores de cada vertice
         
         vertices.add(0,num);
         for (int i = 0; i < nVer.size(); i++) {
-            Numero n = new Numero(nVer.get(i), null);
-            aux = n.sacarSucesores(nVer.get(i));
-            n.setAdyacentes(aux);
             
+            Numero n = new Numero(nVer.get(i));
+            aux = n.sacarSucesores();
+                   
             vertices.add(0,n);
-            for (int j = 0; j < aux.size(); j++) {
+            for (int j = 0; j < aux.size(); j++) { //Añadimos los que no esten en la lista 
                 if (!nVer.contains(aux.get(j))) {
                     nVer.add(aux.get(j));
                 }
@@ -143,19 +139,18 @@ public class PracticaPD {
         return mapa;
     }
 
-    public Numero siguienteJugada() {
-        //Para ver a que numero va, elegir un adyacente que sea perdedor
+    public Numero siguienteJugada() { //Para ver a que numero va a elegir un adyacente que sea perdedor
         ArrayList<Numero> adyacentesRaiz = mapa.adyacentes(numeroActual);
         Numero siguiente = null;
-        boolean flan = false;
+        boolean flag = false;
         for (int i = 0; i < adyacentesRaiz.size(); i++) {
             if (adyacentesRaiz.get(i).getGanador().equals("P")) {
                 siguiente = adyacentesRaiz.get(i);
-                flan = true;
+                flag = true;
             }
         }
         for (int i = 0; i < adyacentesRaiz.size(); i++) {
-            if (adyacentesRaiz.get(i).getGanador().equals("G") && flan == false) {
+            if (adyacentesRaiz.get(i).getGanador().equals("G") && flag == false) {
                 siguiente = adyacentesRaiz.get(i);
             }
         }

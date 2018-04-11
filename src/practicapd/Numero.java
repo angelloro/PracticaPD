@@ -8,18 +8,16 @@ import java.util.*;
 
 public class Numero {
     int numero;
-    ArrayList<Integer> adyacentes;
-    Numero padre;    
+    ArrayList<Integer> adyacentes;       
     String ganador;
     
     public Numero(){
         
     }
     
-    public Numero(int numero, Numero padre){
+    public Numero(int numero){
         this.numero = numero;
-        this.adyacentes = null;
-        this.padre = padre;        
+        this.adyacentes = sacarSucesores();               
         this.ganador = "X";
     }
 
@@ -29,10 +27,6 @@ public class Numero {
 
     public ArrayList<Integer> getAdyacentes() {
         return adyacentes;
-    }
-
-    public Numero getPadre() {
-        return padre;
     }
 
     public String getGanador() {
@@ -46,11 +40,7 @@ public class Numero {
     public void setAdyacentes(ArrayList primos) {
         this.adyacentes = primos;
     }
-
-    public void setPadre(Numero padre) {
-        this.padre = padre;
-    }
-    
+   
     public void setGanador(String ganador) {
         this.ganador = ganador;
     }
@@ -72,7 +62,7 @@ public class Numero {
         return primos;
     }
 
-    public ArrayList<Integer> sacarDivisores(int num) { //Saca los divisores
+    private ArrayList<Integer> sacarDivisores(int num) { //Saca los divisores
         ArrayList<Integer> primos = sacarPrimos(); //Lista con los primos menores que num
         ArrayList<Integer> divisores = new ArrayList<>(); //Lista para guardar los divisores
         int pot;
@@ -88,17 +78,17 @@ public class Numero {
         return divisores;
     }
     
-    public ArrayList<Integer> sacarSucesores(int num) { //Saca los sucesores
-        ArrayList<Integer> divisores = sacarDivisores(num); //Lista con los divisores de num
+    public ArrayList<Integer> sacarSucesores() { //Saca los sucesores
+        ArrayList<Integer> divisores = sacarDivisores(numero); //Lista con los divisores de num
         ArrayList<Integer> sucesores = new ArrayList<>(); //Lista para guardar los sucesores
         for (int i = 0; i < divisores.size(); i++) {
-            sucesores.add(num / divisores.get(i));
+            sucesores.add(numero / divisores.get(i));
         }        
         return sucesores;
     }
     
     @Override
     public String toString(){
-        return "El numero: " + numero + "es " + ganador;
+        return "El numero: " + numero + " es " + ganador;
     }
 }

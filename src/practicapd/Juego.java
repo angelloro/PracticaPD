@@ -61,10 +61,8 @@ public class Juego {
 
     public static void jugadorPerfecto(PracticaPD d) {
         boolean fin = false,
-        turnoJugador = false;
-        String ganador = "";
-        int n;
-        n = leer.entero("Indique el numero con el cual desea jugar\n");
+        turnoJugador = true;        
+        int n = leer.entero("Indique el numero con el cual desea jugar\n");
         d.inicioForward(n);//Indicamos el numero con el que se desea jugar
         Numero actual = d.getNActual();//Actualizamos el numero con el que se trabaja
         int eleccion = 0;
@@ -76,26 +74,24 @@ public class Juego {
                 while (!actual.getAdyacentes().contains(eleccion)) {//El jugador selecciona un numero de los adyacentes al punto actual
                     eleccion = leer.entero("Introduzca un numero de esta lista: " + actual.getAdyacentes());
                 }
+                actual = d.pedirActual(eleccion);
                 turnoJugador = false;
-                if (eleccion == 1) {
+                if (actual.getNumero() == 1) {
                     fin = true;
-                    ganador = "Jugador";
+                     leer.pln("HAS GANADO");
                 }
+                
             } else {//La maquina realiza su jugada buscando siempre la mejor
                 leer.pln("Turno maquina: ");
-                actual = d.siguienteJugada();
-                eleccion = actual.getNumero();
+                actual = d.siguienteJugada();                
                 turnoJugador = true;
-                if (eleccion == 1) {
+                if (actual.getNumero() == 1) {
                     fin = true;
-                    ganador = "Maquina";
+                    leer.pln("HAS PERDIDO. GAME OVER");
                 }
-            }
-            actual = d.pedirActual(eleccion);
+            }            
             d.setNActual(actual);
             leer.pln("" + actual.getNumero());
-        }
-
-        leer.pln("El ganador es: " + ganador);
+        }        
     }
 }
