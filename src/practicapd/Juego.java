@@ -14,9 +14,9 @@ public class Juego {
         boolean fin=false, turnoJugador=false;
         String ganador = "";
           
-        int n = 195;
+        int n = 12;
         d.inicio(n);
-        Numero actual=d.darNActual(); 
+        Numero actual=d.getNActual(); 
         int eleccion=0;
         leer.pln("El numero para comenzar a jugar es: "+n);
         

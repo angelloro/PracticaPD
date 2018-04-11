@@ -12,6 +12,10 @@ public class Numero {
     Numero padre;    
     String ganador;
     
+    public Numero(){
+        
+    }
+    
     public Numero(int numero,ArrayList primos,Numero padre){
         this.numero=numero;
         this.adyacentes=primos;
@@ -31,7 +35,7 @@ public class Numero {
         return padre;
     }
 
-    public String isGanador() {
+    public String getGanador() {
         return ganador;
     }
     
@@ -53,8 +57,9 @@ public class Numero {
     
     private ArrayList<Integer> sacarPrimos(int num) { //Saca los primos
         ArrayList<Integer> primos = new ArrayList<>(); //Lista con los primos menores que num
-        int cont = 0;
-        for (int i = 0; i <= num; i++) { 
+        int cont;
+        for (int i = 1; i <= num; i++) {
+            cont = 0;
             for (int j = 1; j <= i; j++) { //Comprobamos si 'i' es primo
                 if (i % j == 0) {
                     cont++;

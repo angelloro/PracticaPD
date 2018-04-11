@@ -14,32 +14,36 @@ public class PracticaPD {
     private Numero numeroActual;
     
     public void inicio(int num) {
+        raiz = new Numero(num, null, null);
+        ArrayList<Integer> pa = raiz.sacarDivisores(num);
+        raiz.setAdyacentes(raiz.sacarSucesores(num));
         crearGrafo(num);
-            
+        
+        
         backward(raiz);
         numeroActual=raiz;
         //siguienteJugada(adyacentesRaiz);
     }
 
-    public Numero darRaiz() {
+    public Numero getRaiz() {
         return raiz;
     }
-    public Numero darNActual(){
+    public Numero getNActual(){
         return numeroActual;
     }
 
     public void crearGrafo(int num) {
-        ArrayList<Integer> pa = primosDivisores(num);
+        leer.pln(""+sacarVertices(num));
         ArrayList<Numero> vertices = sacarVertices(num);
-        raiz = new Numero(num, division(num, pa), null);
         vertices.add(0, raiz);
 
         mapa = new Grafo(vertices.size(), true);
         mapa = editarGrafo(mapa, vertices);
     }
-
+    
+    //Algoritmo forward y metodos auxiliares
     public void forward(Numero raiz) {
-        ArrayList<Numero> anchura = new ArrayList<>();        
+        /*ArrayList<Numero> anchura = new ArrayList<>();        
         anchura.add(raiz);
         ArrayList<Numero> numeros = mapa.vertices();
         int c = 0;
@@ -61,10 +65,10 @@ public class PracticaPD {
                 }
             }
             c++;
-        }
+        }*/
     }
 
-    private boolean ganador(Numero V) {
+    /*private boolean ganador(Numero V) {
         boolean ganador = false;
         ArrayList<Integer> ADY = V.getAdyacentes();
         for (int i = 0; i < ADY.size(); i++) {
@@ -74,10 +78,11 @@ public class PracticaPD {
 
         }
         return ganador;
-    }
+    }*/
 
+    //Algoritmo backward y metodos auxiliares
     public void backward(Numero estoy) {
-        if (estoy.isGanador().equals("X")) {
+        if (estoy.getGanador().equals("X")) {
             ArrayList<Numero> ady = mapa.adyacentes(estoy);
             if (ady.isEmpty()) {
                 estoy.setGanador("P");
@@ -85,11 +90,11 @@ public class PracticaPD {
                 for (int k = 0; k < ady.size(); k++) {
                     Numero voy = ady.get(k);
                     backward(voy);
-                    if (voy.isGanador().equals("P")) {
+                    if (!ganador(voy.getGanador())) {
                         estoy.setGanador("G");
                         estoy.setPadre(voy);
                     }
-                    if (!estoy.isGanador().equals("G")) {
+                    if (!ganador(estoy.getGanador())) {
                         estoy.setGanador("P");
                     }
                 }
@@ -97,16 +102,19 @@ public class PracticaPD {
         }
     }
 
+    public boolean ganador(String a){
+        return a.equals("G");
+    }
 
 
-
-
-    public ArrayList<Numero> sacarVertices(int num) {        
-        ArrayList<Integer> nVer = division(num, primosDivisores(num));
+    //Cosas del grafo
+    public ArrayList<Numero> sacarVertices(int num) {
+        Numero a = new Numero();        
+        ArrayList<Integer> nVer = a.sacarSucesores(num);
         ArrayList<Integer> aux = new ArrayList<>();
         ArrayList<Numero> nas = new ArrayList<>();
         for (int i = 0; i < nVer.size(); i++) {
-            aux = division(nVer.get(i), primosDivisores(nVer.get(i)));
+            aux = a.sacarSucesores(nVer.get(i));
             Numero n = new Numero(nVer.get(i), aux, null);
             nas.add(n);
             for (int j = 0; j < aux.size(); j++) {
@@ -123,9 +131,9 @@ public class PracticaPD {
     public Grafo editarGrafo(Grafo mapa, ArrayList<Numero> vertices) {
         for (int i = 0; i < vertices.size(); i++) {
             Numero a = vertices.get(i);
-            //Numero n = new Numero(a,primosDivisores(a),raiz,0);
             mapa.nuevoVertice(a);
         }
+        
         ArrayList<Numero> V = mapa.vertices();
         for (int x = 0; x < V.size(); x++) {
             Numero O = V.get(x);
@@ -152,13 +160,13 @@ public class PracticaPD {
         Numero siguiente = null;
         boolean flan = false;
         for (int i = 0; i < adyacentesRaiz.size(); i++) {
-            if (adyacentesRaiz.get(i).isGanador().equals("P")) {
+            if (adyacentesRaiz.get(i).getGanador().equals("P")) {
                 siguiente = adyacentesRaiz.get(i);
                 flan = true;
             }
         }
         for (int i = 0; i < adyacentesRaiz.size(); i++) {
-            if (adyacentesRaiz.get(i).isGanador().equals("G") && flan == false) {
+            if (adyacentesRaiz.get(i).getGanador().equals("G") && flan == false) {
                 siguiente = adyacentesRaiz.get(i);
             }
         }
