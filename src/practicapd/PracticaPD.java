@@ -21,7 +21,7 @@ public class PracticaPD {
  
         crearGrafo(raiz, vertices); //Creamos el grafo
         
-        backward(raiz);
+        backward(raiz, raiz);
         numeroActual=raiz;        
     }
     
@@ -63,18 +63,19 @@ public class PracticaPD {
     }
 
     //Algoritmo backward
-    public void backward(Numero estoy) {
-        if (estoy.getGanador().equals("X")) {
+    public void backward(Numero estoy, Numero raiz) {
+        if(raiz.getGanador().equals("G")){
+            //No hace nada porque ya ha encontrado el camino ganador
+        }else if (estoy.getGanador().equals("X")) {
             ArrayList<Numero> ady = mapa.adyacentes(estoy);
             if (ady.isEmpty()) {
                 estoy.setGanador("P");
             } else {
                 for (int k = 0; k < ady.size(); k++) {
                     Numero voy = ady.get(k);
-                    backward(voy);
+                    backward(voy, raiz);
                     if (!ganador(voy.getGanador())) {
-                        estoy.setGanador("G");
-                        //estoy.setPadre(voy);
+                        estoy.setGanador("G");                        
                     }
                     if (!ganador(estoy.getGanador())) {
                         estoy.setGanador("P");
@@ -91,8 +92,8 @@ public class PracticaPD {
 
     
     public ArrayList<Numero> sacarVertices(Numero num) {               
-        ArrayList<Numero> vertices = new ArrayList<>();
-        ArrayList<Integer> nVer = num.sacarSucesores(num.getNumero());
+        ArrayList<Numero> vertices = new ArrayList<>(); //Lista donde vamos a guardar los vertices
+        ArrayList<Integer> nVer = num.sacarSucesores(num.getNumero()); 
         ArrayList<Integer> aux = new ArrayList<>();
         
         vertices.add(0,num);

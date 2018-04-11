@@ -55,10 +55,10 @@ public class Numero {
         this.ganador = ganador;
     }
     
-    private ArrayList<Integer> sacarPrimos(int num) { //Saca los primos
+    private ArrayList<Integer> sacarPrimos() { //Saca los primos
         ArrayList<Integer> primos = new ArrayList<>(); //Lista con los primos menores que num
         int cont;
-        for (int i = 1; i <= num; i++) {
+        for (int i = 1; i <= numero; i++) {
             cont = 0;
             for (int j = 1; j <= i; j++) { //Comprobamos si 'i' es primo
                 if (i % j == 0) {
@@ -73,7 +73,7 @@ public class Numero {
     }
 
     public ArrayList<Integer> sacarDivisores(int num) { //Saca los divisores
-        ArrayList<Integer> primos = sacarPrimos(num); //Lista con los primos menores que num
+        ArrayList<Integer> primos = sacarPrimos(); //Lista con los primos menores que num
         ArrayList<Integer> divisores = new ArrayList<>(); //Lista para guardar los divisores
         int pot;
         
