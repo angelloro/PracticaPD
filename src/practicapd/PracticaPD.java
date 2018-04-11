@@ -14,28 +14,17 @@ public class PracticaPD {
     private Numero numeroActual;
     
     public void inicio(int num) {
-        raiz = new Numero(num, null, null);
-        ArrayList<Integer> pa = raiz.sacarDivisores(num);
+        raiz = new Numero(num, null);
+        ArrayList<Numero> vertices = sacarVertices(raiz);
+        
         raiz.setAdyacentes(raiz.sacarSucesores(num));
-        crearGrafo(num);    
+ 
+        crearGrafo(raiz, vertices); //Creamos el grafo
+                
         backward(raiz);
-        numeroActual=raiz;
+        numeroActual=raiz;        
     }
 
-    public Numero getRaiz() {
-        return raiz;
-    }
-    public Numero getNActual(){
-        return numeroActual;
-    }
-
-    public void crearGrafo(int num) {
-        ArrayList<Numero> vertices = sacarVertices(num);
-        vertices.add(0, raiz);
-        mapa = new Grafo(vertices.size(), true);
-        mapa = editarGrafo( vertices);
-    }
-    
     //Algoritmo forward y metodos auxiliares
     public void forward(Numero raiz) {
         /*ArrayList<Numero> anchura = new ArrayList<>();        
@@ -63,17 +52,17 @@ public class PracticaPD {
         }*/
     }
 
-    /*private boolean ganador(Numero V) {
+    private boolean ganador(Numero V) {
         boolean ganador = false;
-        ArrayList<Integer> ADY = V.getAdyacentes();
+        /*ArrayList<Integer> ADY = V.getAdyacentes();
         for (int i = 0; i < ADY.size(); i++) {
             if (ADY.get(i) == 1) {
                 ganador = true;
             }
 
-        }
+        }*/
         return ganador;
-    }*/
+    }
 
     //Algoritmo backward y metodos auxiliares
     public void backward(Numero estoy) {
@@ -101,34 +90,39 @@ public class PracticaPD {
         return a.equals("G");
     }
 
-
     //Cosas del grafo
-    public ArrayList<Numero> sacarVertices(int num) {
-        Numero a = new Numero();        
-        ArrayList<Integer> nVer = a.sacarSucesores(num);
+    public ArrayList<Numero> sacarVertices(Numero num) {               
+        ArrayList<Numero> vertices = new ArrayList<>();
+        ArrayList<Integer> nVer = num.sacarSucesores(num.getNumero());
         ArrayList<Integer> aux = new ArrayList<>();
-        ArrayList<Numero> nas = new ArrayList<>();
+        
+        vertices.add(0,num);
         for (int i = 0; i < nVer.size(); i++) {
-            aux = a.sacarSucesores(nVer.get(i));
-            Numero n = new Numero(nVer.get(i), aux, null);
-            nas.add(n);
+            Numero n = new Numero(nVer.get(i), null);
+            aux = n.sacarSucesores(nVer.get(i));
+            n.setAdyacentes(aux);
+            
+            vertices.add(n);
             for (int j = 0; j < aux.size(); j++) {
                 if (!nVer.contains(aux.get(j))) {
                     nVer.add(aux.get(j));
                 }
             }
-        }
-        nVer.add(0, num);
-
-        return nas;
+        }        
+        return vertices;
     }
-
-    public Grafo editarGrafo( ArrayList<Numero> vertices) {
+    
+    public void crearGrafo(Numero num, ArrayList<Numero> vertices) {
+        mapa = new Grafo(vertices.size(), true);
+        mapa = editarGrafo(vertices);
+    }
+    
+    public Grafo editarGrafo(ArrayList<Numero> vertices) {
         for (int i = 0; i < vertices.size(); i++) {
             Numero a = vertices.get(i);
             mapa.nuevoVertice(a);
         }
-        
+       
         ArrayList<Numero> V = mapa.vertices();
         for (int x = 0; x < V.size(); x++) {
             Numero O = V.get(x);
@@ -167,6 +161,7 @@ public class PracticaPD {
         }
         return siguiente;
     }
+    
     public Numero pedirActual(int num){
         Numero actual=null;
         ArrayList<Numero> vertex=mapa.vertices();
@@ -178,7 +173,16 @@ public class PracticaPD {
         
         return actual;
     }
-    public void setActual(Numero actual){
+    
+    public Numero getRaiz() {
+        return raiz;
+    }
+    
+    public Numero getNActual(){
+        return numeroActual;
+    }
+
+    public void setNActual(Numero actual){
         numeroActual=actual;
     }
 }

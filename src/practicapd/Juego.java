@@ -86,7 +86,7 @@ public class Juego {
                 }
             }
             actual = d.pedirActual(eleccion);
-            d.setActual(actual);
+            d.setNActual(actual);
             leer.pln("" + actual.getNumero());
         }
 

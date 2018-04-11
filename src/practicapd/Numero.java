@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Numero {
     int numero;
-    ArrayList adyacentes;
+    ArrayList<Integer> adyacentes;
     Numero padre;    
     String ganador;
     
@@ -16,10 +16,10 @@ public class Numero {
         
     }
     
-    public Numero(int numero,ArrayList primos,Numero padre){
-        this.numero=numero;
-        this.adyacentes=primos;
-        this.padre=padre;        
+    public Numero(int numero, Numero padre){
+        this.numero = numero;
+        this.adyacentes = null;
+        this.padre = padre;        
         this.ganador = "X";
     }
 
@@ -27,7 +27,7 @@ public class Numero {
         return numero;
     }
 
-    public ArrayList getAdyacentes() {
+    public ArrayList<Integer> getAdyacentes() {
         return adyacentes;
     }
 
@@ -93,7 +93,7 @@ public class Numero {
         ArrayList<Integer> sucesores = new ArrayList<>(); //Lista para guardar los sucesores
         for (int i = 0; i < divisores.size(); i++) {
             sucesores.add(num / divisores.get(i));
-        }
+        }        
         return sucesores;
     }
     
