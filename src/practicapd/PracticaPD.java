@@ -119,20 +119,20 @@ public class PracticaPD {
             mapa.nuevoVertice(a);
         }
        
-        ArrayList<Numero> V = mapa.vertices();
-        for (int x = 0; x < V.size(); x++) {
-            Numero O = V.get(x);
-            Numero X = null;
-            ArrayList<Integer> Prim = O.getAdyacentes();
+        ArrayList<Numero> listaVertices = mapa.vertices();
+        for (int x = 0; x < listaVertices.size(); x++) {
+            Numero numero1 = listaVertices.get(x);
+            Numero numeroAux = null;
+            ArrayList<Integer> Prim = numero1.getAdyacentes();
             for (int y = 0; y < Prim.size(); y++) {
-                for (int z = 0; z < V.size(); z++) {
-                    Numero N1 = V.get(z);
-                    if (N1.getNumero() == Prim.get(y)) {
-                        X = N1;
+                for (int z = 0; z < listaVertices.size(); z++) {
+                    Numero numero2 = listaVertices.get(z);
+                    if (numero2.getNumero() == Prim.get(y)) {
+                        numeroAux = numero2;
                     }
                 }
 
-                mapa.nuevoArco(O, X, 0);
+                mapa.nuevoArco(numero1, numeroAux, 0);
             }
 
         }

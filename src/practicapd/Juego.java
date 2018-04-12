@@ -9,32 +9,11 @@ import utilidades.*;
 public class Juego {
 
     public static void main(String[] args) {
-        PracticaPD d = new PracticaPD();
-        boolean seguir = true;
-        //programa para seleccionar lo que se desea hacer
-        do {
-            switch (leer.entero("Indique que desea realizar:\n1:Comprobar una jugada\n2:Jugar contra la maquina\n3:Fin programa\n")) {
-                case 1:
-                    comprobarJugada(d);
-                    break;
-                case 2:
-                    jugadorPerfecto(d);
-                    break;
-                case 3:
-                    seguir = false;
-                    leer.pln("Hasta la proxima");
-                    break;
-                default:
-                    leer.pln("Opcion invalida");
-                    break;
-            }
-
-        } while (seguir);
+       menu();
     }
 
     public static void comprobarJugada(PracticaPD d) {
-        int n = leer.entero("Indique el numero con el cual desea jugar\n");
-        //d.inicioForward(n);//Indicamos el numero con el que se desea jugar
+        int n =comprobarNumero();
         switch(leer.entero("Indique la opcion elegida:\n1:fordward\n2:backward\n")){
             case 1:
                 d.inicioForward(n);
@@ -62,7 +41,7 @@ public class Juego {
     public static void jugadorPerfecto(PracticaPD d) {
         boolean fin = false,
         turnoJugador = true;        
-        int n = leer.entero("Indique el numero con el cual desea jugar\n");
+        int n=comprobarNumero();
         d.inicioForward(n);//Indicamos el numero con el que se desea jugar
         Numero actual = d.getNActual();//Actualizamos el numero con el que se trabaja
         int eleccion = 0;
@@ -93,5 +72,34 @@ public class Juego {
             d.setNActual(actual);
             leer.pln("" + actual.getNumero());
         }        
+    }
+    public static int comprobarNumero(){
+        int n = 0;
+        while(n==0||n<=1)
+                n=leer.entero("Indique el numero con el cual desea jugar\n");
+        return n;
+    }
+    public static void menu(){
+        PracticaPD d = new PracticaPD();
+        boolean seguir = true;
+        //programa para seleccionar lo que se desea hacer
+         do {
+            switch (leer.entero("Indique que desea realizar:\n1:Comprobar una jugada\n2:Jugar contra la maquina\n3:Fin programa\n")) {
+                case 1:
+                    comprobarJugada(d);
+                    break;
+                case 2:
+                    jugadorPerfecto(d);
+                    break;
+                case 3:
+                    seguir = false;
+                    leer.pln("Hasta la proxima");
+                    break;
+                default:
+                    leer.pln("Opcion invalida");
+                    break;
+            }
+
+        } while (seguir);
     }
 }
