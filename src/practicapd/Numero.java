@@ -7,42 +7,53 @@ import java.util.*;
  **/
 
 public class Numero {
-    int numero;
-    ArrayList<Integer> adyacentes;       
-    String ganador;
+    private int numero;
+    private ArrayList<Numero> adyacentes;       
+    private String ganador;
+    private Numero padre;
+    
     
     public Numero(){
         
     }
     
-    public Numero(int numero){
-        this.numero = numero;
+    public Numero(int num){
+        this.numero = num;
         this.adyacentes = sacarSucesores();               
         this.ganador = "X";
+        this.padre = null;
     }
 
     public int getNumero() {
-        return numero;
+        return this.numero;
     }
 
-    public ArrayList<Integer> getAdyacentes() {
-        return adyacentes;
+    public ArrayList<Numero> getAdyacentes() {
+        return this.adyacentes;
     }
 
     public String getGanador() {
-        return ganador;
+        return this.ganador;
     }
     
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public Numero getPadre(){
+        return this.padre;
+    }
+    
+    public void setNumero(int newNumero) {
+        this.numero = newNumero;
     }
 
-    public void setAdyacentes(ArrayList primos) {
-        this.adyacentes = primos;
+    public void setAdyacentes(ArrayList newPrimos) {
+        this.adyacentes = newPrimos;
     }
    
-    public void setGanador(String ganador) {
-        this.ganador = ganador;
+    public void setGanador(String newGanador) {
+        this.ganador = newGanador;
+    }
+    
+    public void setPadre(Numero newPadre){
+        this.padre = newPadre;
     }
     
     private ArrayList<Integer> sacarPrimos() { //Saca los primos
@@ -78,11 +89,12 @@ public class Numero {
         return divisores;
     }
     
-    public ArrayList<Integer> sacarSucesores() { //Saca los sucesores
+    public ArrayList<Numero> sacarSucesores() { //Saca los sucesores
         ArrayList<Integer> divisores = sacarDivisores(numero); //Lista con los divisores de num
-        ArrayList<Integer> sucesores = new ArrayList<>(); //Lista para guardar los sucesores
+        ArrayList<Numero> sucesores = new ArrayList<>(); //Lista para guardar los sucesores
         for (int i = 0; i < divisores.size(); i++) {
-            sucesores.add(numero / divisores.get(i));
+            Numero nuevo = new Numero(numero / divisores.get(i));
+            sucesores.add(nuevo);
         }        
         return sucesores;
     }

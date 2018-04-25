@@ -15,15 +15,15 @@ public class PracticaPD {
     
     public void inicioBackward(int num) {
         raiz = new Numero(num);
-        ArrayList<Numero> vertices = sacarVertices(raiz);                   
+       // ArrayList<Numero> vertices = sacarVertices(raiz);                   
  
-        crearGrafo(raiz, vertices); //Creamos el grafo
+        //crearGrafo(raiz, vertices); //Creamos el grafo
         
         backward(raiz, raiz);
         numeroActual=raiz;        
     }
     
-    public void inicioForward(int num) {
+    /*public void inicioForward(int num) {
         raiz = new Numero(num);
         ArrayList<Numero> vertices = sacarVertices(raiz);                
  
@@ -31,7 +31,7 @@ public class PracticaPD {
                 
         forward(vertices.get(0));
         numeroActual=raiz;        
-    }
+    }*/
 
     //Algoritmo forward
     public void forward(Numero ultimo) {
@@ -63,7 +63,7 @@ public class PracticaPD {
         if(raiz.getGanador().equals("G")){
             //No hace nada porque ya ha encontrado el camino ganador
         }else if (estoy.getGanador().equals("X")) {
-            ArrayList<Numero> ady = mapa.adyacentes(estoy);
+            ArrayList<Numero> ady = estoy.getAdyacentes();
             if (ady.isEmpty()) {
                 estoy.setGanador("P");
             } else {
@@ -71,6 +71,7 @@ public class PracticaPD {
                     Numero voy = ady.get(k);
                     backward(voy, raiz);
                     if (!ganador(voy.getGanador())) {
+                        estoy.setPadre(voy);
                         estoy.setGanador("G");                        
                     }
                     if (!ganador(estoy.getGanador())) {
@@ -86,8 +87,7 @@ public class PracticaPD {
         return a.equals("G");
     }
 
-    
-    public ArrayList<Numero> sacarVertices(Numero num) {               
+    /*public ArrayList<Numero> sacarVertices(Numero num) {               
         ArrayList<Numero> vertices = new ArrayList<>(); //Lista donde vamos a guardar los vertices
         ArrayList<Integer> nVer = num.sacarSucesores(); //Lista de los sucesores que vamos a convertir en objeto Numero
         ArrayList<Integer> aux = new ArrayList<>(); //Lista auxiliar donde vamos a guardar los sucesores de cada vertice
@@ -137,7 +137,7 @@ public class PracticaPD {
 
         }
         return mapa;
-    }
+    }*/
 
     public Numero siguienteJugada() { //Para ver a que numero va a elegir un adyacente que sea perdedor
         ArrayList<Numero> adyacentesRaiz = mapa.adyacentes(numeroActual);

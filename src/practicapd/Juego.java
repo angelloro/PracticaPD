@@ -16,7 +16,7 @@ public class Juego {
         int n =comprobarNumero();
         switch(leer.entero("Indique la opcion elegida:\n1:fordward\n2:backward\n")){
             case 1:
-                d.inicioForward(n);
+               // d.inicioForward(n);
                 if (d.getRaiz().getGanador().equals("G")){
                    leer.pln("Este numero puede ganar");
                    Numero siguiente =d.siguienteJugada();
@@ -42,7 +42,7 @@ public class Juego {
         boolean fin = false,
         turnoJugador = true;        
         int n=comprobarNumero();
-        d.inicioForward(n);//Indicamos el numero con el que se desea jugar
+        d.inicioBackward(n);//Indicamos el numero con el que se desea jugar
         Numero actual = d.getNActual();//Actualizamos el numero con el que se trabaja
         int eleccion = 0;
         leer.pln("El numero para comenzar a jugar es: " + n);
