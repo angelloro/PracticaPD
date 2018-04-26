@@ -10,22 +10,19 @@ import java.util.ArrayList;
 public class PracticaPD {
 
     private Grafo<Numero, Integer> mapa;
-    private Numero raiz;
-    private Numero numeroActual;
+    private Numero raiz;    
     
     public void inicioBackward(int num) {
         raiz = new Numero(num);
         
-        backward(raiz, raiz);
-        numeroActual=raiz;        
+        backward(raiz, raiz);                
     }
     
     public void inicioForward(int num) {
         raiz = new Numero(num);
         Numero primero = new Numero(1);
                 
-        forward(primero);
-        numeroActual=raiz;        
+        forward(primero);            
     }
 
     //Algoritmo forward
@@ -83,14 +80,12 @@ public class PracticaPD {
     }
 
     public Numero siguienteJugada() { //Para ver a que numero va a elegir un adyacente que sea perdedor
-        ArrayList<Numero> adyacentesRaiz = numeroActual.getAdyacentes();
-        leer.pln(""+adyacentesRaiz);
+        ArrayList<Numero> adyacentesRaiz = raiz.getAdyacentes();
         Numero siguiente = null;
         boolean flag = false;
         for (int i = 0; i < adyacentesRaiz.size(); i++) {
             if (adyacentesRaiz.get(i).getGanador().equals("P")) {
                 siguiente = adyacentesRaiz.get(i);
-                leer.pln(""+siguiente.getNumero());
                 flag = true;
             }
         }
@@ -103,27 +98,7 @@ public class PracticaPD {
         return siguiente;
     }
     
-    public Numero pedirActual(int num){
-        Numero actual=null;
-        ArrayList<Numero> vertex=mapa.vertices();
-        for (int i=0;i<vertex.size();i++){
-            if(vertex.get(i).getNumero()==num){
-               actual=vertex.get(i);
-            }
-        }
-        
-        return actual;
-    }
-    
     public Numero getRaiz() {
         return raiz;
-    }
-    
-    public Numero getNActual(){
-        return numeroActual;
-    }
-
-    public void setNActual(Numero actual){
-        numeroActual=actual;
     }
 }

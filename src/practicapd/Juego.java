@@ -37,26 +37,25 @@ public class Juego {
                break;            
         }
     }
-
+    
     public static void jugadorPerfecto(PracticaPD d) {
-        boolean fin = false,
-        turnoJugador = true;        
-        int n=comprobarNumero();
-        d.inicioBackward(n);//Indicamos el numero con el que se desea jugar
-        Numero actual = d.getNActual();//Actualizamos el numero con el que se trabaja
-        int eleccion = 0;
-        Numero a = null;
-        leer.pln("El numero para comenzar a jugar es: " + n);
-        //Se alternan los turnos del jugador y de la maquina mediante un bucle hasta que el juego termine
-        while (fin == false) {
+        boolean fin = false, turnoJugador = true;        
+        int n = comprobarNumero(); //Pide el numero y comprueba que sea mayor que 0
+        
+        Numero actual = new Numero(n);//Actualizamos el numero con el que se trabaja
+       
+        leer.pln("El numero para comenzar a jugar es: " + n);        
+        while (fin == false) { //Se alternan los turnos del jugador y de la maquina mediante un bucle hasta que el juego termine
             if (turnoJugador) {
                 leer.pln("Turno jugador: ");
+                
                 //while (!actual.getAdyacentes().contains(a)) {//El jugador selecciona un numero de los adyacentes al punto actual
-                    eleccion = leer.entero("Introduzca un numero de esta lista: " + actual.getAdyacentes());
-                    a = new Numero(eleccion);
+                    int eleccion = leer.entero("Introduzca un numero de esta lista: " + actual.getAdyacentes());                    
                 //}
-                actual = a;
+                actual = new Numero(eleccion);
                 turnoJugador = false;
+                
+                leer.pln("" + actual.getNumero());
                 if (actual.getNumero() == 1) {
                     fin = true;
                     leer.pln("HAS GANADO");
@@ -64,20 +63,22 @@ public class Juego {
                 
             } else {//La maquina realiza su jugada buscando siempre la mejor
                 leer.pln("Turno maquina: ");
+                
+                d.inicioBackward(actual.getNumero());
                 actual = d.siguienteJugada();                
                 turnoJugador = true;
+                
+                leer.pln("" + actual.getNumero());
                 if (actual.getNumero() == 1) {
                     fin = true;
                     leer.pln("HAS PERDIDO. GAME OVER");
                 }
-            }            
-            d.setNActual(actual);
-            leer.pln("" + actual.getNumero());
+            }                    
         }        
     }
     public static int comprobarNumero(){
         int n = 0;
-        while(n==0||n<=1)
+        while(n <= 1)
                 n=leer.entero("Indique el numero con el cual desea jugar\n");
         return n;
     }
