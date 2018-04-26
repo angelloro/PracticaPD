@@ -15,23 +15,18 @@ public class PracticaPD {
     
     public void inicioBackward(int num) {
         raiz = new Numero(num);
-       // ArrayList<Numero> vertices = sacarVertices(raiz);                   
- 
-        //crearGrafo(raiz, vertices); //Creamos el grafo
         
         backward(raiz, raiz);
         numeroActual=raiz;        
     }
     
-    /*public void inicioForward(int num) {
+    public void inicioForward(int num) {
         raiz = new Numero(num);
-        ArrayList<Numero> vertices = sacarVertices(raiz);                
- 
-        crearGrafo(raiz, vertices); //Creamos el grafo
+        Numero primero = new Numero(1);
                 
-        forward(vertices.get(0));
+        forward(primero);
         numeroActual=raiz;        
-    }*/
+    }
 
     //Algoritmo forward
     public void forward(Numero ultimo) {
@@ -87,60 +82,8 @@ public class PracticaPD {
         return a.equals("G");
     }
 
-    /*public ArrayList<Numero> sacarVertices(Numero num) {               
-        ArrayList<Numero> vertices = new ArrayList<>(); //Lista donde vamos a guardar los vertices
-        ArrayList<Integer> nVer = num.sacarSucesores(); //Lista de los sucesores que vamos a convertir en objeto Numero
-        ArrayList<Integer> aux = new ArrayList<>(); //Lista auxiliar donde vamos a guardar los sucesores de cada vertice
-        
-        vertices.add(0,num);
-        for (int i = 0; i < nVer.size(); i++) {
-            
-            Numero n = new Numero(nVer.get(i));
-            aux = n.sacarSucesores();
-                   
-            vertices.add(0,n);
-            for (int j = 0; j < aux.size(); j++) { //Añadimos los que no esten en la lista 
-                if (!nVer.contains(aux.get(j))) {
-                    nVer.add(aux.get(j));
-                }
-            }
-        }        
-        return vertices;
-    }
-    
-    public void crearGrafo(Numero num, ArrayList<Numero> vertices) {
-        mapa = new Grafo(vertices.size(), true);
-        mapa = editarGrafo(vertices);
-    }
-    
-    public Grafo editarGrafo(ArrayList<Numero> vertices) {
-        for (int i = 0; i < vertices.size(); i++) {
-            Numero a = vertices.get(i);
-            mapa.nuevoVertice(a);
-        }
-       
-        ArrayList<Numero> listaVertices = mapa.vertices();
-        for (int x = 0; x < listaVertices.size(); x++) {
-            Numero numero1 = listaVertices.get(x);
-            Numero numeroAux = null;
-            ArrayList<Integer> Prim = numero1.getAdyacentes();
-            for (int y = 0; y < Prim.size(); y++) {
-                for (int z = 0; z < listaVertices.size(); z++) {
-                    Numero numero2 = listaVertices.get(z);
-                    if (numero2.getNumero() == Prim.get(y)) {
-                        numeroAux = numero2;
-                    }
-                }
-
-                mapa.nuevoArco(numero1, numeroAux, 0);
-            }
-
-        }
-        return mapa;
-    }*/
-
     public Numero siguienteJugada() { //Para ver a que numero va a elegir un adyacente que sea perdedor
-        ArrayList<Numero> adyacentesRaiz = mapa.adyacentes(numeroActual);
+        ArrayList<Numero> adyacentesRaiz = numeroActual.getAdyacentes();
         Numero siguiente = null;
         boolean flag = false;
         for (int i = 0; i < adyacentesRaiz.size(); i++) {

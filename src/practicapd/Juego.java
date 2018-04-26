@@ -16,7 +16,7 @@ public class Juego {
         int n =comprobarNumero();
         switch(leer.entero("Indique la opcion elegida:\n1:fordward\n2:backward\n")){
             case 1:
-               // d.inicioForward(n);
+                d.inicioForward(n);
                 if (d.getRaiz().getGanador().equals("G")){
                    leer.pln("Este numero puede ganar");
                    Numero siguiente =d.siguienteJugada();
@@ -45,19 +45,21 @@ public class Juego {
         d.inicioBackward(n);//Indicamos el numero con el que se desea jugar
         Numero actual = d.getNActual();//Actualizamos el numero con el que se trabaja
         int eleccion = 0;
+        Numero a = null;
         leer.pln("El numero para comenzar a jugar es: " + n);
         //Se alternan los turnos del jugador y de la maquina mediante un bucle hasta que el juego termine
         while (fin == false) {
             if (turnoJugador) {
                 leer.pln("Turno jugador: ");
-                while (!actual.getAdyacentes().contains(eleccion)) {//El jugador selecciona un numero de los adyacentes al punto actual
+                //while (!actual.getAdyacentes().contains(a)) {//El jugador selecciona un numero de los adyacentes al punto actual
                     eleccion = leer.entero("Introduzca un numero de esta lista: " + actual.getAdyacentes());
-                }
-                actual = d.pedirActual(eleccion);
+                    a = new Numero(eleccion);
+                //}
+                actual = a;
                 turnoJugador = false;
                 if (actual.getNumero() == 1) {
                     fin = true;
-                     leer.pln("HAS GANADO");
+                    leer.pln("HAS GANADO");
                 }
                 
             } else {//La maquina realiza su jugada buscando siempre la mejor
@@ -79,6 +81,7 @@ public class Juego {
                 n=leer.entero("Indique el numero con el cual desea jugar\n");
         return n;
     }
+    
     public static void menu(){
         PracticaPD d = new PracticaPD();
         boolean seguir = true;
