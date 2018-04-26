@@ -84,16 +84,19 @@ public class PracticaPD {
 
     public Numero siguienteJugada() { //Para ver a que numero va a elegir un adyacente que sea perdedor
         ArrayList<Numero> adyacentesRaiz = numeroActual.getAdyacentes();
+        leer.pln(""+adyacentesRaiz);
         Numero siguiente = null;
         boolean flag = false;
         for (int i = 0; i < adyacentesRaiz.size(); i++) {
             if (adyacentesRaiz.get(i).getGanador().equals("P")) {
                 siguiente = adyacentesRaiz.get(i);
+                leer.pln(""+siguiente.getNumero());
                 flag = true;
             }
         }
         for (int i = 0; i < adyacentesRaiz.size(); i++) {
-            if (adyacentesRaiz.get(i).getGanador().equals("G") && flag == false) {
+            if ( flag == false) {
+                if(adyacentesRaiz.get(i).getGanador().equals("G") || adyacentesRaiz.get(i).getGanador().equals("X") )
                 siguiente = adyacentesRaiz.get(i);
             }
         }
