@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class PracticaPD {
 
-    private Grafo<Numero, Integer> mapa;
     private Numero raiz;    
     
     public void inicioBackward(int num) {
@@ -27,7 +26,7 @@ public class PracticaPD {
 
     //Algoritmo forward
     public void forward(Numero ultimo) {
-        ArrayList<Numero> anchura = new ArrayList<>();        
+        /*ArrayList<Numero> anchura = new ArrayList<>();        
         anchura.add(ultimo);
         ultimo.setGanador("P");
         ArrayList<Numero> numeros = mapa.vertices();
@@ -47,7 +46,7 @@ public class PracticaPD {
                 }
             }
             c++;
-        }
+        }*/
     }
 
     //Algoritmo backward

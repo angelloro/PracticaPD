@@ -1,5 +1,6 @@
 package practicapd;
 
+import java.util.ArrayList;
 import utilidades.*;
 
 /**
@@ -13,14 +14,12 @@ public class Juego {
     }
 
     public static void comprobarJugada(PracticaPD d) {
-        int n =comprobarNumero();
+        int n = comprobarNumero();
         switch(leer.entero("Indique la opcion elegida:\n1:fordward\n2:backward\n")){
             case 1:
                 d.inicioForward(n);
                 if (d.getRaiz().getGanador().equals("G")){
-                   leer.pln("Este numero puede ganar");
-                   Numero siguiente =d.siguienteJugada();
-                   leer.pln("Para ganar deje al contrario el numero: "+siguiente.getNumero());
+                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + d.siguienteJugada());
                 }else{
                    leer.pln("Este numero no puede ganar");
                 }
@@ -28,9 +27,7 @@ public class Juego {
             case 2:
                 d.inicioBackward(n);
                if (d.getRaiz().getGanador().equals("G")){
-                   leer.pln("Este numero puede ganar");
-                   Numero siguiente =d.siguienteJugada();
-                   leer.pln("Para ganar deje al contrario el numero: "+siguiente.getNumero());
+                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + d.siguienteJugada());
                }else{
                    leer.pln("Este numero no puede ganar");
                }
@@ -42,16 +39,21 @@ public class Juego {
         boolean fin = false, turnoJugador = true;        
         int n = comprobarNumero(); //Pide el numero y comprueba que sea mayor que 0
         
-        Numero actual = new Numero(n);//Actualizamos el numero con el que se trabaja
+        Numero actual = new Numero(n); //Actualizamos el numero con el que se trabaja
        
         leer.pln("El numero para comenzar a jugar es: " + n);        
         while (fin == false) { //Se alternan los turnos del jugador y de la maquina mediante un bucle hasta que el juego termine
+            int eleccion = 0;
             if (turnoJugador) {
                 leer.pln("Turno jugador: ");
                 
-                //while (!actual.getAdyacentes().contains(a)) {//El jugador selecciona un numero de los adyacentes al punto actual
-                    int eleccion = leer.entero("Introduzca un numero de esta lista: " + actual.getAdyacentes());                    
-                //}
+                ArrayList<Integer> adyacentes = new ArrayList<>();                
+                for(int i = 0 ; i < actual.getAdyacentes().size() ; i++)
+                    adyacentes.add(actual.getAdyacentes().get(i).getNumero());                                    
+                                    
+                while(!adyacentes.contains(eleccion)) //El jugador selecciona un numero de los adyacentes al punto actual
+                   eleccion = leer.entero("Introduzca un numero de esta lista: " + actual.getAdyacentes()); 
+                                
                 actual = new Numero(eleccion);
                 turnoJugador = false;
                 
@@ -59,9 +61,8 @@ public class Juego {
                 if (actual.getNumero() == 1) {
                     fin = true;
                     leer.pln("HAS GANADO");
-                }
-                
-            } else {//La maquina realiza su jugada buscando siempre la mejor
+                }                
+            } else { //La maquina realiza su jugada buscando siempre la mejor
                 leer.pln("Turno maquina: ");
                 
                 d.inicioBackward(actual.getNumero());
@@ -76,6 +77,7 @@ public class Juego {
             }                    
         }        
     }
+    
     public static int comprobarNumero(){
         int n = 0;
         while(n <= 1)
@@ -85,9 +87,8 @@ public class Juego {
     
     public static void menu(){
         PracticaPD d = new PracticaPD();
-        boolean seguir = true;
-        //programa para seleccionar lo que se desea hacer
-         do {
+        boolean seguir = true;        
+        do {
             switch (leer.entero("Indique que desea realizar:\n1:Comprobar una jugada\n2:Jugar contra la maquina\n3:Fin programa\n")) {
                 case 1:
                     comprobarJugada(d);
@@ -103,7 +104,6 @@ public class Juego {
                     leer.pln("Opcion invalida");
                     break;
             }
-
         } while (seguir);
     }
 }

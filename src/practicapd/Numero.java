@@ -100,6 +100,11 @@ public class Numero {
     }
     
     @Override
+    public boolean equals(Object c) {
+        return (c instanceof Numero) && ((Numero) c).numero == numero;
+    }
+            
+    @Override
     public String toString(){
         return "El numero: " + numero;
     }
