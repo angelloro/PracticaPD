@@ -20,15 +20,17 @@ public class PracticaPD {
     
     public void inicioForward(int num) {
         raiz = new Numero(num);
-        divisoresRaiz = raiz.sacarDivisores(raiz.getNumero());
-        Numero primero = new Numero(4);
+        divisoresRaiz = raiz.sacarF(raiz.getNumero());
+        Numero primero = new Numero(2);
                 
         forward(primero, raiz);            
     }
 
     //Algoritmo forward
     public void forward(Numero ultimo, Numero raiz) {        
-        ArrayList<Numero> anchura = new ArrayList<>();                        
+        leer.pln(""+raiz.sacarF(12));
+        leer.pln(""+sucesoresForward(ultimo));
+        /*ArrayList<Numero> anchura = new ArrayList<>();                        
         anchura.add(ultimo);                
         ultimo.setGanador("P");
         int c = 0;
@@ -49,7 +51,7 @@ public class PracticaPD {
             }
             c++;
             leer.pln(""+raiz.getGanador());
-        }
+        }*/
     }
 
     //Algoritmo backward
@@ -107,14 +109,14 @@ public class PracticaPD {
     public ArrayList<Numero> sucesoresForward(Numero num){
         ArrayList<Numero> sucesoresForward = new ArrayList<>();
         ArrayList<Integer> aux = new ArrayList<>();
-        ArrayList<Integer> aux1 = num.sacarDivisores(num.getNumero());                
+        ArrayList<Integer> aux1 = num.sacarF(num.getNumero());                
         
         for(int i = 0 ; i < divisoresRaiz.size() ; i++){
             if(!aux1.contains(divisoresRaiz.get(i))){
                 aux.add(divisoresRaiz.get(i));
             }
         }        
-        
+        leer.pln(""+aux);
         for(int i = 0 ; i<aux.size() ; i++){
             sucesoresForward.add(new Numero(num.getNumero()*aux.get(i)));
         }
