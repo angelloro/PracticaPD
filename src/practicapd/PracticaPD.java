@@ -1,7 +1,8 @@
 package practicapd;
 
 import utilidades.*;
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.*;
 
 /**
  * @author Ángel Loro y Ángel Sánchez
@@ -28,8 +29,9 @@ public class PracticaPD {
 
     //Algoritmo forward
     public void forward(Numero ultimo, Numero raiz) {        
-        leer.pln(""+raiz.sacarF(12));
-        leer.pln(""+sucesoresForward(ultimo));
+        leer.pln(""+raiz.sacarF(36));
+        Numero x= new Numero(1);
+        leer.pln(""+sucesoresForward(x));
         /*ArrayList<Numero> anchura = new ArrayList<>();                        
         anchura.add(ultimo);                
         ultimo.setGanador("P");
@@ -119,9 +121,17 @@ public class PracticaPD {
             }
         }        
         leer.pln(""+aux);
+        int numeroMultiplicacion=0;
+        int pot=1;
         for(int i = 0 ; i<aux.size() ; i++){
-            
-            sucesoresForward.add(new Numero(num.getNumero()*aux.get(i)));
+            if (numeroMultiplicacion==aux.get(i)){
+                pot++;
+            }else{
+                pot=1; 
+            }
+            int potencia =(int) Math.pow(aux.get(i), pot);
+            sucesoresForward.add(new Numero(num.getNumero()* potencia));
+            numeroMultiplicacion=aux.get(i);
         }
         return sucesoresForward;
     }
