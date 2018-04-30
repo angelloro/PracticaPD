@@ -98,17 +98,16 @@ public class Numero {
         }        
         return sucesores;
     }
+    
     public ArrayList<Integer> sacarF(int num) { //Saca los divisores
         ArrayList<Integer> primos = sacarPrimos(); //Lista con los primos menores que num
-        ArrayList<Integer> divisores = new ArrayList<>(); //Lista para guardar los divisores
-        int pot;
+        ArrayList<Integer> divisores = new ArrayList<>(); //Lista para guardar los divisores        
         
         for (int i = 0; i < primos.size(); i++) { 
-            pot = 1;
+            
             while (num % primos.get(i) == 0) { 
-                divisores.add((int) Math.pow(primos.get(i), pot)); 
-                num /= primos.get(i);
-                
+                divisores.add(primos.get(i)); 
+                num /= primos.get(i);                
             }
         }
         return divisores;

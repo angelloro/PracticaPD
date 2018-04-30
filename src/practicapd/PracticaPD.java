@@ -21,7 +21,7 @@ public class PracticaPD {
     public void inicioForward(int num) {
         raiz = new Numero(num);
         divisoresRaiz = raiz.sacarF(raiz.getNumero());
-        Numero primero = new Numero(2);
+        Numero primero = new Numero(1);
                 
         forward(primero, raiz);            
     }
@@ -114,10 +114,13 @@ public class PracticaPD {
         for(int i = 0 ; i < divisoresRaiz.size() ; i++){
             if(!aux1.contains(divisoresRaiz.get(i))){
                 aux.add(divisoresRaiz.get(i));
+            }else{
+                aux1.remove(divisoresRaiz.get(i));
             }
         }        
         leer.pln(""+aux);
         for(int i = 0 ; i<aux.size() ; i++){
+            
             sucesoresForward.add(new Numero(num.getNumero()*aux.get(i)));
         }
         return sucesoresForward;
