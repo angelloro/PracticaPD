@@ -73,7 +73,7 @@ public class Numero {
         return primos;
     }
 
-    private ArrayList<Integer> sacarDivisores(int num) { //Saca los divisores
+    public ArrayList<Integer> sacarDivisores(int num) { //Saca los divisores
         ArrayList<Integer> primos = sacarPrimos(); //Lista con los primos menores que num
         ArrayList<Integer> divisores = new ArrayList<>(); //Lista para guardar los divisores
         int pot;

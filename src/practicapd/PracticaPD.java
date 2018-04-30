@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 public class PracticaPD {
 
-    private Numero raiz;    
+    private Numero raiz;
+    private ArrayList<Integer> divisoresRaiz;
     
     public void inicioBackward(int num) {
         raiz = new Numero(num);
@@ -19,34 +20,36 @@ public class PracticaPD {
     
     public void inicioForward(int num) {
         raiz = new Numero(num);
-        Numero primero = new Numero(1);
+        divisoresRaiz = raiz.sacarDivisores(raiz.getNumero());
+        Numero primero = new Numero(4);
                 
-        forward(primero);            
+        forward(primero, raiz);            
     }
 
     //Algoritmo forward
-    public void forward(Numero ultimo) {
-        /*ArrayList<Numero> anchura = new ArrayList<>();        
-        anchura.add(ultimo);
+    public void forward(Numero ultimo, Numero raiz) {        
+        ArrayList<Numero> anchura = new ArrayList<>();                        
+        anchura.add(ultimo);                
         ultimo.setGanador("P");
-        ArrayList<Numero> numeros = mapa.vertices();
         int c = 0;
-        while (c < numeros.size()) {
+        while (raiz.getGanador().equals("X")) {
             Numero estoy = anchura.get(c);
-            ArrayList<Numero> inc = mapa.incidentes(estoy);
+            ArrayList<Numero> inc = sucesoresForward(estoy);
             for (int k = 0; k < inc.size(); k++) {
                 Numero voy = inc.get(k);
                 if (!anchura.contains(voy)) {
                     anchura.add(voy);
                 }
                 if (!ganador(estoy.getGanador())) {
-                    voy.setGanador("G");                    
+                    voy.setGanador("G");
+                    
                 }else{
                     voy.setGanador("P");
                 }
             }
             c++;
-        }*/
+            leer.pln(""+raiz.getGanador());
+        }
     }
 
     //Algoritmo backward
@@ -99,5 +102,22 @@ public class PracticaPD {
     
     public Numero getRaiz() {
         return raiz;
+    }
+    
+    public ArrayList<Numero> sucesoresForward(Numero num){
+        ArrayList<Numero> sucesoresForward = new ArrayList<>();
+        ArrayList<Integer> aux = new ArrayList<>();
+        ArrayList<Integer> aux1 = num.sacarDivisores(num.getNumero());                
+        
+        for(int i = 0 ; i < divisoresRaiz.size() ; i++){
+            if(!aux1.contains(divisoresRaiz.get(i))){
+                aux.add(divisoresRaiz.get(i));
+            }
+        }        
+        
+        for(int i = 0 ; i<aux.size() ; i++){
+            sucesoresForward.add(new Numero(num.getNumero()*aux.get(i)));
+        }
+        return sucesoresForward;
     }
 }

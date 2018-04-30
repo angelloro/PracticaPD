@@ -5,14 +5,35 @@ import utilidades.*;
 
 /**
  * @author Ángel Loro y Ángel Sánchez
- *
- */
+ **/
 public class Juego {
 
     public static void main(String[] args) {
        menu();
     }
-
+    
+    public static void menu(){
+        PracticaPD d = new PracticaPD();
+        boolean seguir = true;        
+        do {
+            switch (leer.entero("Indique que desea realizar:\n1:Comprobar una jugada\n2:Jugar contra la maquina\n3:Fin programa\n")) {
+                case 1:
+                    comprobarJugada(d);
+                    break;
+                case 2:
+                    jugadorPerfecto(d);
+                    break;
+                case 3:
+                    seguir = false;
+                    leer.pln("Hasta la proxima");
+                    break;
+                default:
+                    leer.pln("Opcion invalida");
+                    break;
+            }
+        } while (seguir);
+    }
+    
     public static void comprobarJugada(PracticaPD d) {
         int n = comprobarNumero();
         switch(leer.entero("Indique la opcion elegida:\n1:fordward\n2:backward\n")){
@@ -49,8 +70,7 @@ public class Juego {
                 
                 ArrayList<Integer> adyacentes = new ArrayList<>();                
                 for(int i = 0 ; i < actual.getAdyacentes().size() ; i++)
-                    adyacentes.add(actual.getAdyacentes().get(i).getNumero());                                    
-                                    
+                    adyacentes.add(actual.getAdyacentes().get(i).getNumero());                                                                        
                 while(!adyacentes.contains(eleccion)) //El jugador selecciona un numero de los adyacentes al punto actual
                    eleccion = leer.entero("Introduzca un numero de esta lista: " + actual.getAdyacentes()); 
                                 
@@ -83,27 +103,5 @@ public class Juego {
         while(n <= 1)
                 n=leer.entero("Indique el numero con el cual desea jugar\n");
         return n;
-    }
-    
-    public static void menu(){
-        PracticaPD d = new PracticaPD();
-        boolean seguir = true;        
-        do {
-            switch (leer.entero("Indique que desea realizar:\n1:Comprobar una jugada\n2:Jugar contra la maquina\n3:Fin programa\n")) {
-                case 1:
-                    comprobarJugada(d);
-                    break;
-                case 2:
-                    jugadorPerfecto(d);
-                    break;
-                case 3:
-                    seguir = false;
-                    leer.pln("Hasta la proxima");
-                    break;
-                default:
-                    leer.pln("Opcion invalida");
-                    break;
-            }
-        } while (seguir);
-    }
+    }        
 }
