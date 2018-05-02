@@ -38,9 +38,9 @@ public class Juego {
         int n = comprobarNumero();
         switch(leer.entero("Indique la opcion elegida:\n\t1:Fordward\n\t2:Backward\n")){
             case 1:
-                d.inicioForward(n);
+                
                 if (d.getRaiz().getGanador().equals("G")){
-                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + d.siguienteJugada());
+                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + d.inicioForward(n));
                 }else{
                    leer.pln("Este numero no puede ganar");
                 }

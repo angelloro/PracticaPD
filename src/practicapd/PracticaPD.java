@@ -19,16 +19,16 @@ public class PracticaPD {
         backward(raiz, raiz);                
     }
     
-    public void inicioForward(int num) {
+    public Numero inicioForward(int num) {
         raiz = new Numero(num);
         divisoresRaiz = raiz.sacarF(raiz.getNumero());
         Numero primero = new Numero(1);
                 
-        forward(primero, raiz);            
+        return forward(primero, raiz);            
     }
 
     //Algoritmo forward
-    public void forward(Numero ultimo, Numero raiz) {                        
+    public Numero forward(Numero ultimo, Numero raiz) {                        
         ArrayList<Numero> anchura = new ArrayList<>();                        
         anchura.add(ultimo);                
         ultimo.setGanador("P");
@@ -53,14 +53,20 @@ public class PracticaPD {
             }
             c++;            
         }
-        leer.pln("Ady"+estoy.getAdyacentes());
+        
         raiz.setGanador(estoy.getGanador());
         
-        for(int i = 0 ; i<anchura.size() ; i++){
-            if(estoy.equals(anchura.get(i).getPadre())){
-                leer.pln("Es: " + anchura.get(i));
+        for(int i = 0 ; i < anchura.size() ; i++){
+            try{
+                if(raiz.getNumero() == anchura.get(i).getPadre().getNumero() && anchura.get(i).getGanador().equals("P")){
+                estoy = anchura.get(i);
             }
+            }catch(Exception e){
+                //Este fallo es provocado por el null del 1
+            }
+            
         }
+        return estoy;
     }
     
     //Algoritmo backward
