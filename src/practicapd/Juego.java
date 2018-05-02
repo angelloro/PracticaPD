@@ -16,7 +16,7 @@ public class Juego {
         PracticaPD d = new PracticaPD();
         boolean seguir = true;        
         do {
-            switch (leer.entero("Indique que desea realizar:\n1:Comprobar una jugada\n2:Jugar contra la maquina\n3:Fin programa\n")) {
+            switch (leer.entero("Indique que desea realizar:\n\t1:Comprobar una jugada\n\t2:Jugar contra la maquina\n\t3:Fin programa\n")) {
                 case 1:
                     comprobarJugada(d);
                     break;
@@ -36,7 +36,7 @@ public class Juego {
     
     public static void comprobarJugada(PracticaPD d) {
         int n = comprobarNumero();
-        switch(leer.entero("Indique la opcion elegida:\n1:fordward\n2:backward\n")){
+        switch(leer.entero("Indique la opcion elegida:\n\t1:Fordward\n\t2:Backward\n")){
             case 1:
                 d.inicioForward(n);
                 if (d.getRaiz().getGanador().equals("G")){
@@ -80,7 +80,7 @@ public class Juego {
                 leer.pln("" + actual.getNumero());
                 if (actual.getNumero() == 1) {
                     fin = true;
-                    leer.pln("HAS GANADO");
+                    leer.pln("HAS GANADO. YOU WIN");
                 }                
             } else { //La maquina realiza su jugada buscando siempre la mejor
                 leer.pln("Turno maquina: ");

@@ -56,6 +56,10 @@ public class Numero {
         this.padre = newPadre;
     }
     
+    public void addAdyacente(Numero newNumero){
+        adyacentes.add(newNumero);
+    }
+    
     private ArrayList<Integer> sacarPrimos() { //Saca los primos
         ArrayList<Integer> primos = new ArrayList<>(); //Lista con los primos menores que num
         int cont;
@@ -114,12 +118,7 @@ public class Numero {
     }
     
     @Override
-    public boolean equals(Object c) {
-        return (c instanceof Numero) && ((Numero) c).numero == numero;
-    }
-            
-    @Override
     public String toString(){
-        return "El numero: " + numero;
+        return "El numero: " + numero + " es " + ganador;
     }
 }

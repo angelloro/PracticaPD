@@ -28,34 +28,41 @@ public class PracticaPD {
     }
 
     //Algoritmo forward
-    public void forward(Numero ultimo, Numero raiz) {        
-        leer.pln(""+raiz.sacarF(36));
-        Numero x= new Numero(1);
-        leer.pln(""+sucesoresForward(x));
-        /*ArrayList<Numero> anchura = new ArrayList<>();                        
+    public void forward(Numero ultimo, Numero raiz) {                        
+        ArrayList<Numero> anchura = new ArrayList<>();                        
         anchura.add(ultimo);                
         ultimo.setGanador("P");
         int c = 0;
-        while (raiz.getGanador().equals("X")) {
-            Numero estoy = anchura.get(c);
-            ArrayList<Numero> inc = sucesoresForward(estoy);
-            for (int k = 0; k < inc.size(); k++) {
-                Numero voy = inc.get(k);
-                if (!anchura.contains(voy)) {
-                    anchura.add(voy);
-                }
+        Numero estoy = ultimo;
+        while (estoy.getNumero() != raiz.getNumero()) {
+            estoy = anchura.get(c);
+
+            ArrayList<Numero> suc = sucesoresForward(estoy);
+            for (int k = 0; k < suc.size(); k++) {
+                Numero voy = suc.get(k);                                
                 if (!ganador(estoy.getGanador())) {
                     voy.setGanador("G");
-                    
+                    estoy.setPadre(voy);                   
                 }else{
                     voy.setGanador("P");
+                    estoy.setPadre(voy); 
                 }
+                if (!contains(anchura, voy)) {
+                    anchura.add(voy);
+                }                
             }
-            c++;
-            leer.pln(""+raiz.getGanador());
-        }*/
+            c++;            
+        }
+        leer.pln("Ady"+estoy.getAdyacentes());
+        raiz.setGanador(estoy.getGanador());
+        
+        for(int i = 0 ; i<anchura.size() ; i++){
+            if(estoy.equals(anchura.get(i).getPadre())){
+                leer.pln("Es: " + anchura.get(i));
+            }
+        }
     }
-
+    
     //Algoritmo backward
     public void backward(Numero estoy, Numero raiz) {
         if(raiz.getGanador().equals("G")){
@@ -84,6 +91,19 @@ public class PracticaPD {
     public boolean ganador(String a){
         return a.equals("G");
     }
+    
+    public boolean contains(ArrayList<Numero> anchura, Numero num){
+        boolean contains = false;
+        for(int i = 0 ; i < anchura.size() ; i++){
+            if(anchura.get(i).getNumero() == num.getNumero()){
+                contains = true;
+                if(anchura.get(i).getGanador().equals("P") && num.getGanador().equals("G")){
+                    anchura.get(i).setGanador("G");
+                }                
+            }
+        }
+        return contains;
+    }
 
     public Numero siguienteJugada() { //Para ver a que numero va a elegir un adyacente que sea perdedor
         ArrayList<Numero> adyacentesRaiz = raiz.getAdyacentes();
@@ -104,10 +124,6 @@ public class PracticaPD {
         return siguiente;
     }
     
-    public Numero getRaiz() {
-        return raiz;
-    }
-    
     public ArrayList<Numero> sucesoresForward(Numero num){
         ArrayList<Numero> sucesoresForward = new ArrayList<>();
         ArrayList<Integer> aux = new ArrayList<>();
@@ -120,9 +136,9 @@ public class PracticaPD {
                 aux1.remove(divisoresRaiz.get(i));
             }
         }        
-        leer.pln(""+aux);
-        int numeroMultiplicacion=0;
-        int pot=1;
+
+        int numeroMultiplicacion = 0;
+        int pot = 1;
         for(int i = 0 ; i<aux.size() ; i++){
             if (numeroMultiplicacion==aux.get(i)){
                 pot++;
@@ -134,5 +150,9 @@ public class PracticaPD {
             numeroMultiplicacion=aux.get(i);
         }
         return sucesoresForward;
+    }
+    
+    public Numero getRaiz() {
+        return raiz;
     }
 }
