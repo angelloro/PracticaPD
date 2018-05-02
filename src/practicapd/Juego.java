@@ -36,19 +36,20 @@ public class Juego {
     
     public static void comprobarJugada(PracticaPD d) {
         int n = comprobarNumero();
+        Numero a;
         switch(leer.entero("Indique la opcion elegida:\n\t1:Fordward\n\t2:Backward\n")){
             case 1:
-                
+                a = d.inicioForward(n);
                 if (d.getRaiz().getGanador().equals("G")){
-                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + d.inicioForward(n));
+                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + a);
                 }else{
                    leer.pln("Este numero no puede ganar");
                 }
                 break;                
             case 2:
-                d.inicioBackward(n);
+                a = d.inicioBackward(n);
                if (d.getRaiz().getGanador().equals("G")){
-                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + d.siguienteJugada());
+                   leer.pln("Este numero puede ganar.\nPara ganar deje al contrario el numero: " + a);
                }else{
                    leer.pln("Este numero no puede ganar");
                }
@@ -85,8 +86,7 @@ public class Juego {
             } else { //La maquina realiza su jugada buscando siempre la mejor
                 leer.pln("Turno maquina: ");
                 
-                d.inicioBackward(actual.getNumero());
-                actual = d.siguienteJugada();                
+                actual = d.inicioBackward(actual.getNumero());               
                 turnoJugador = true;
                 
                 leer.pln("" + actual.getNumero());

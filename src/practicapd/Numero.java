@@ -107,8 +107,7 @@ public class Numero {
         ArrayList<Integer> primos = sacarPrimos(); //Lista con los primos menores que num
         ArrayList<Integer> divisores = new ArrayList<>(); //Lista para guardar los divisores        
         
-        for (int i = 0; i < primos.size(); i++) { 
-            
+        for (int i = 0; i < primos.size(); i++) {             
             while (num % primos.get(i) == 0) { 
                 divisores.add(primos.get(i)); 
                 num /= primos.get(i);                
@@ -119,6 +118,6 @@ public class Numero {
     
     @Override
     public String toString(){
-        return "El numero: " + numero + " es " + ganador;
+        return numero + "";
     }
 }

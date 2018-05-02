@@ -13,10 +13,11 @@ public class PracticaPD {
     private Numero raiz;
     private ArrayList<Integer> divisoresRaiz;
     
-    public void inicioBackward(int num) {
+    //Inicializaciones
+    public Numero inicioBackward(int num) {
         raiz = new Numero(num);
         
-        backward(raiz, raiz);                
+        return backward(raiz, raiz);                
     }
     
     public Numero inicioForward(int num) {
@@ -52,25 +53,27 @@ public class PracticaPD {
                 }                
             }
             c++;            
-        }
-        
-        raiz.setGanador(estoy.getGanador());
-        
+        }        
+        raiz.setGanador(estoy.getGanador());        
+        return siguienteJugadaForward(anchura);
+    }
+    
+    private Numero siguienteJugadaForward(ArrayList<Numero> anchura){
+        Numero dejar = new Numero();
         for(int i = 0 ; i < anchura.size() ; i++){
             try{
                 if(raiz.getNumero() == anchura.get(i).getPadre().getNumero() && anchura.get(i).getGanador().equals("P")){
-                estoy = anchura.get(i);
+                dejar = anchura.get(i);
             }
             }catch(Exception e){
                 //Este fallo es provocado por el null del 1
-            }
-            
+            }            
         }
-        return estoy;
+        return dejar;
     }
     
     //Algoritmo backward
-    public void backward(Numero estoy, Numero raiz) {
+    public Numero backward(Numero estoy, Numero raiz) {
         if(raiz.getGanador().equals("G")){
             //No hace nada porque ya ha encontrado el camino ganador
         }else if (estoy.getGanador().equals("X")) {
@@ -91,7 +94,27 @@ public class PracticaPD {
                 }
             }
         }
+        return siguienteJugadaBackward();
     }
+    
+    private Numero siguienteJugadaBackward() { //Para ver a que numero va a elegir un adyacente que sea perdedor
+        ArrayList<Numero> adyacentesRaiz = raiz.getAdyacentes();
+        Numero siguiente = null;
+        boolean flag = false;
+        for (int i = 0; i < adyacentesRaiz.size(); i++) {
+            if (adyacentesRaiz.get(i).getGanador().equals("P")) {
+                siguiente = adyacentesRaiz.get(i);
+                flag = true;
+            }
+        }
+        for (int i = 0; i < adyacentesRaiz.size(); i++) {
+            if ( flag == false) {
+                if(adyacentesRaiz.get(i).getGanador().equals("G") || adyacentesRaiz.get(i).getGanador().equals("X") )
+                siguiente = adyacentesRaiz.get(i);
+            }
+        }
+        return siguiente;
+    }    
     
     //Metodo auxiliar
     public boolean ganador(String a){
@@ -111,25 +134,6 @@ public class PracticaPD {
         return contains;
     }
 
-    public Numero siguienteJugada() { //Para ver a que numero va a elegir un adyacente que sea perdedor
-        ArrayList<Numero> adyacentesRaiz = raiz.getAdyacentes();
-        Numero siguiente = null;
-        boolean flag = false;
-        for (int i = 0; i < adyacentesRaiz.size(); i++) {
-            if (adyacentesRaiz.get(i).getGanador().equals("P")) {
-                siguiente = adyacentesRaiz.get(i);
-                flag = true;
-            }
-        }
-        for (int i = 0; i < adyacentesRaiz.size(); i++) {
-            if ( flag == false) {
-                if(adyacentesRaiz.get(i).getGanador().equals("G") || adyacentesRaiz.get(i).getGanador().equals("X") )
-                siguiente = adyacentesRaiz.get(i);
-            }
-        }
-        return siguiente;
-    }
-    
     public ArrayList<Numero> sucesoresForward(Numero num){
         ArrayList<Numero> sucesoresForward = new ArrayList<>();
         ArrayList<Integer> aux = new ArrayList<>();
