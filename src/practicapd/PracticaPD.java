@@ -1,7 +1,5 @@
 package practicapd;
 
-import utilidades.*;
-//import java.util.ArrayList;
 import java.util.*;
 
 /**
@@ -16,8 +14,9 @@ public class PracticaPD {
     //Inicializaciones
     public Numero inicioBackward(int num) {
         raiz = new Numero(num);
-        
-        return backward(raiz, raiz);                
+        ArrayList<Numero> recorridos = new ArrayList<>();
+        backward(raiz, recorridos);                
+        return siguienteJugadaBackward();
     }
     
     public Numero inicioForward(int num) {
@@ -30,23 +29,21 @@ public class PracticaPD {
 
     //Algoritmo forward
     public Numero forward(Numero ultimo, Numero raiz) {                        
+        int c = 0;
         ArrayList<Numero> anchura = new ArrayList<>();                        
         anchura.add(ultimo);                
         ultimo.setGanador("P");
-        int c = 0;
-        Numero estoy = ultimo;
+        
+        Numero estoy = new Numero();
         while (estoy.getNumero() != raiz.getNumero()) {
             estoy = anchura.get(c);
-
             ArrayList<Numero> suc = sucesoresForward(estoy);
+            
             for (int k = 0; k < suc.size(); k++) {
                 Numero voy = suc.get(k);                                
                 if (!ganador(estoy.getGanador())) {
                     voy.setGanador("G");
                     estoy.setPadre(voy);                   
-                }else{
-                    voy.setGanador("P");
-                    estoy.setPadre(voy); 
                 }
                 if (!contains(anchura, voy)) {
                     anchura.add(voy);
@@ -73,28 +70,30 @@ public class PracticaPD {
     }
     
     //Algoritmo backward
-    public Numero backward(Numero estoy, Numero raiz) {
-        if(raiz.getGanador().equals("G")){
-            //No hace nada porque ya ha encontrado el camino ganador
-        }else if (estoy.getGanador().equals("X")) {
+    public void backward(Numero estoy, ArrayList<Numero> recorridos) {
+        if (estoy.getGanador().equals("X")) {
+            recorridos.add(estoy);
             ArrayList<Numero> ady = estoy.getAdyacentes();
             if (ady.isEmpty()) {
                 estoy.setGanador("P");
             } else {
+                
                 for (int k = 0; k < ady.size(); k++) {
                     Numero voy = ady.get(k);
-                    backward(voy, raiz);
-                    if (!ganador(voy.getGanador())) {
-                        estoy.setPadre(voy);
-                        estoy.setGanador("G");                        
-                    }
-                    if (!ganador(estoy.getGanador())) {
-                        estoy.setGanador("P");
+                    if (containsB(recorridos, estoy)) {
+                        backward(voy, recorridos);
+                        if (!ganador(voy.getGanador())) {
+                            estoy.setPadre(voy);
+                            estoy.setGanador("G");
+                        }
+                        if (!ganador(estoy.getGanador())) {
+                            estoy.setGanador("P");
+                        }
                     }
                 }
+
             }
         }
-        return siguienteJugadaBackward();
     }
     
     private Numero siguienteJugadaBackward() { //Para ver a que numero va a elegir un adyacente que sea perdedor
@@ -134,6 +133,16 @@ public class PracticaPD {
         return contains;
     }
 
+    public boolean containsB(ArrayList<Numero> anchura, Numero num) {
+        boolean contains = false;
+        for (int i = 0; i < anchura.size(); i++) {
+            if (anchura.get(i).getNumero() == num.getNumero()) {
+                contains = true;
+            }
+        }
+        return contains;
+    }
+    
     public ArrayList<Numero> sucesoresForward(Numero num){
         ArrayList<Numero> sucesoresForward = new ArrayList<>();
         ArrayList<Integer> aux = new ArrayList<>();
@@ -156,7 +165,7 @@ public class PracticaPD {
                 pot=1; 
             }
             int potencia =(int) Math.pow(aux.get(i), pot);
-            sucesoresForward.add(new Numero(num.getNumero()* potencia));
+            sucesoresForward.add(new Numero(num.getNumero()* potencia, "P"));
             numeroMultiplicacion=aux.get(i);
         }
         return sucesoresForward;

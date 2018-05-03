@@ -1,6 +1,6 @@
 package practicapd;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * @author Ángel Loro y Ángel Sánchez
@@ -23,7 +23,14 @@ public class Numero {
         this.ganador = "X";
         this.padre = null;
     }
-
+    
+    public Numero(int num, String ganador){
+        this.numero = num;
+        this.adyacentes = sacarSucesores();               
+        this.ganador = ganador;
+        this.padre = null;
+    }
+    
     public int getNumero() {
         return this.numero;
     }
