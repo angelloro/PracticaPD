@@ -1,6 +1,7 @@
 package practicapd;
 
 import java.util.*;
+import utilidades.leer;
 
 /**
  * @author Ángel Loro y Ángel Sánchez
@@ -13,9 +14,8 @@ public class PracticaPD {
     
     //Inicializaciones
     public Numero inicioBackward(int num) {
-        raiz = new Numero(num);
-        ArrayList<Numero> recorridos = new ArrayList<>();
-        backward(raiz, recorridos);                
+        raiz = new Numero(num);        
+        backward(raiz);        
         return siguienteJugadaBackward();
     }
     
@@ -41,13 +41,15 @@ public class PracticaPD {
             
             for (int k = 0; k < suc.size(); k++) {
                 Numero voy = suc.get(k);                                
-                if (!ganador(estoy.getGanador())) {
+                if (!estoy.getGanador().equals("G")) {
                     voy.setGanador("G");
                     estoy.setPadre(voy);                   
                 }
-                if (!contains(anchura, voy)) {
-                    anchura.add(voy);
-                }                
+                if (!anchura.contains(voy)) {
+                    anchura.add(voy);                    
+                } else{
+                    mejorar(anchura, voy);
+                }               
             }
             c++;            
         }        
@@ -70,23 +72,22 @@ public class PracticaPD {
     }
     
     //Algoritmo backward
-    public void backward(Numero estoy, ArrayList<Numero> recorridos) {
+    public void backward(Numero estoy) {
+        if(!raiz.getGanador().equals("G"))
         if (estoy.getGanador().equals("X")) {
-            recorridos.add(estoy);
             ArrayList<Numero> ady = estoy.getAdyacentes();
             if (ady.isEmpty()) {
                 estoy.setGanador("P");
-            } else {
-                
+            } else {              
                 for (int k = 0; k < ady.size(); k++) {
                     Numero voy = ady.get(k);
-                    if (containsB(recorridos, estoy)) {
-                        backward(voy, recorridos);
-                        if (!ganador(voy.getGanador())) {
+                    if (!estoy.getGanador().equals("G") || voy.getGanador().equals("X")) {
+                        backward(voy);
+                        if (!voy.getGanador().equals("G")) {
                             estoy.setPadre(voy);
                             estoy.setGanador("G");
                         }
-                        if (!ganador(estoy.getGanador())) {
+                        if (!estoy.getGanador().equals("G")) {
                             estoy.setGanador("P");
                         }
                     }
@@ -120,27 +121,14 @@ public class PracticaPD {
         return a.equals("G");
     }
     
-    public boolean contains(ArrayList<Numero> anchura, Numero num){
-        boolean contains = false;
+    public void mejorar(ArrayList<Numero> anchura, Numero num){        
         for(int i = 0 ; i < anchura.size() ; i++){
-            if(anchura.get(i).getNumero() == num.getNumero()){
-                contains = true;
+            if(anchura.get(i).equals(num)){
                 if(anchura.get(i).getGanador().equals("P") && num.getGanador().equals("G")){
                     anchura.get(i).setGanador("G");
                 }                
             }
-        }
-        return contains;
-    }
-
-    public boolean containsB(ArrayList<Numero> anchura, Numero num) {
-        boolean contains = false;
-        for (int i = 0; i < anchura.size(); i++) {
-            if (anchura.get(i).getNumero() == num.getNumero()) {
-                contains = true;
-            }
-        }
-        return contains;
+        }        
     }
     
     public ArrayList<Numero> sucesoresForward(Numero num){
