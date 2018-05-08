@@ -129,13 +129,6 @@ public class Numero {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + this.numero;
-        return hash;
-    }
-
-    @Override
     public String toString() {
         return numero + " es " + ganador;
     }

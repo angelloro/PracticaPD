@@ -74,7 +74,7 @@ public class PracticaPD {
     //Algoritmo backward
     public void backward(Numero estoy) {
         if(!raiz.getGanador().equals("G"))
-        if (estoy.getGanador().equals("X")) {
+        if (estoy.getGanador().equals("X") || estoy.getGanador().equals("P")) {
             ArrayList<Numero> ady = estoy.getAdyacentes();
             if (ady.isEmpty()) {
                 estoy.setGanador("P");
@@ -117,10 +117,6 @@ public class PracticaPD {
     }    
     
     //Metodo auxiliar
-    public boolean ganador(String a){
-        return a.equals("G");
-    }
-    
     public void mejorar(ArrayList<Numero> anchura, Numero num){        
         for(int i = 0 ; i < anchura.size() ; i++){
             if(anchura.get(i).equals(num)){
