@@ -130,6 +130,6 @@ public class Numero {
 
     @Override
     public String toString() {
-        return numero + " es " + ganador;
+        return numero + " ";
     }
 }

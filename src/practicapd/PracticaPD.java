@@ -46,6 +46,7 @@ public class PracticaPD {
                     estoy.setPadre(voy);                   
                 }
                 if (!anchura.contains(voy)) {
+                    
                     anchura.add(voy);                    
                 } else{
                     mejorar(anchura, voy);
@@ -118,13 +119,10 @@ public class PracticaPD {
     
     //Metodo auxiliar
     public void mejorar(ArrayList<Numero> anchura, Numero num){        
-        for(int i = 0 ; i < anchura.size() ; i++){
-            if(anchura.get(i).equals(num)){
-                if(anchura.get(i).getGanador().equals("P") && num.getGanador().equals("G")){
-                    anchura.get(i).setGanador("G");
-                }                
-            }
-        }        
+        int i = anchura.indexOf(num);
+        if(anchura.get(i).getGanador().equals("P") && num.getGanador().equals("G")){
+            anchura.get(i).setGanador("G");
+        }                
     }
     
     public ArrayList<Numero> sucesoresForward(Numero num){
